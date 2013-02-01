@@ -13,7 +13,6 @@ class OpenForum {
 	/**
 	 * Get the list of available forum sections.
 	 *
-	 *
 	 * @return array
 	 */
 	public static function getSections()

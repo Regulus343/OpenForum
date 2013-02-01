@@ -6,4 +6,12 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'CreateForumPostsTable' => $baseDir . '/src/migrations/2013_01_24_081045_create_forum_posts_table.php',
+    'CreateForumSectionsTable' => $baseDir . '/src/migrations/2013_01_24_074840_create_forum_sections_table.php',
+    'CreateForumThreadViews' => $baseDir . '/src/migrations/2013_01_25_015002_create_forum_thread_views.php',
+    'CreateForumThreadsTable' => $baseDir . '/src/migrations/2013_01_24_080922_create_forum_threads_table.php',
+    'Regulus\\OpenForum\\ForumController' => $baseDir . '/src/controllers/ForumController.php',
+    'Regulus\\OpenForum\\ForumPost' => $baseDir . '/src/models/ForumPost.php',
+    'Regulus\\OpenForum\\ForumSection' => $baseDir . '/src/models/ForumSection.php',
+    'Regulus\\OpenForum\\ForumThread' => $baseDir . '/src/models/ForumThread.php',
 );

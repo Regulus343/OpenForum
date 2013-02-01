@@ -1,6 +1,7 @@
 <?php namespace Regulus\OpenForum;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\ClassLoader;
 
 class OpenForumServiceProvider extends ServiceProvider {
 
@@ -19,6 +20,9 @@ class OpenForumServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('regulus/open-forum');
+
+		include __DIR__.'/../../routes.php';
+		include __DIR__.'/../../filters.php';
 	}
 
 	/**
