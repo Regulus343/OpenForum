@@ -30,9 +30,9 @@ class ForumController extends BaseController {
 		if (empty($section)) {
 			return Redirect::to('forum')->with('messagesError', 'The section you requested does not exist.');
 		}
+
 		Site::set('forumSectionURI', $section->uri_tag);
-		Site::set('subSection', 'Forum: '.$section->title);
-		Site::set('title', 'Forum: '.$section->title);
+		Site::setMulti(array('subSection', 'title'), 'Forum: '.$section->title);
 
 		Site::addTrailItem($section->title, 'forum/'.$uri_tag);
 

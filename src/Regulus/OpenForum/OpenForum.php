@@ -5,7 +5,7 @@
 		A light, effective discussion forum composer package that is easy to configure and implement.
 
 		created by Cody Jassman
-		last updated on January 24, 2013
+		last updated on January 31, 2013
 ----------------------------------------------------------------------------------------------------------*/
 
 class OpenForum {
