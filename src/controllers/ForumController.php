@@ -13,22 +13,20 @@ class ForumController extends BaseController {
 
 	public function getIndex()
 	{
-		Site::set('subSection', 'Forum: Table of Contents');
-		Site::set('title', 'Forum: Table of Contents');
+		Site::setMulti(array('subSection', 'title'), 'Forum: Table of Contents');
 		return View::make('open-forum::home');
 	}
 
 	public function getHome()
 	{
-		Site::set('subSection', 'Forum: Table of Contents');
-		Site::set('title', 'Forum: Table of Contents');
+		Site::setMulti(array('subSection', 'title'), 'Forum: Table of Contents');
 		return View::make('open-forum::home');
 	}
 
 	public function getSection($uri_tag = 'general') {
 		$section = ForumSection::where('uri_tag', '=', $uri_tag)->first();
 		if (empty($section)) {
-			return Redirect::to('forum')->with('messagesError', 'The section you requested does not exist.');
+			return Redirect::to('forum')->with('messages', array('error' => 'The section you requested does not exist.'));
 		}
 
 		Site::set('forumSectionURI', $section->uri_tag);

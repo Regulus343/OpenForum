@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\View;
 //add short routes for all forum sections ("forum/general" instead of "forum/section/general")
 $sections = ForumSection::get(array('uri_tag'));
 foreach ($sections as $section) {
-	Route::get('forum/'.$section->uri_tag, 'Regulus\OpenForum\ForumController@getSection');
+	Route::any('forum/{'.$section->uri_tag.'}', 'Regulus\OpenForum\ForumController@getSection');
 }
 
 //map entire controller

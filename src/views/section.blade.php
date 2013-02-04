@@ -17,7 +17,7 @@
 					<h1><?=$thread->title?></h1>
 
 					<ul class="info">
-						<li><label>Creator:</label> <span><a href="javascript:void(0);" class="profile-popup" rel="u<?=$thread->user_id?>"><?=$thread->user?></a></span></li>
+						<li><label>Creator:</label> <span><a href="javascript:void(0);" class="view-user-profile" rel="u<?=$thread->user_id?>"><?=$thread->user?></a></span></li>
 						<li><label>Replies:</label> <span>{{ ($thread->posts - 1) }}</span></li>
 						<li><label>Views:</label> <span>{{ $thread->views }}</span></li>
 						@if ($thread->latest_post_username)
@@ -26,7 +26,7 @@
 								<a href="{{ URL::to('forum/'.$thread->latest_post_thread_id.'#post'.$thread->latest_post_id) }}">
 									<?=date('M j, Y \a\t g:ia', strtotime($thread->date_latest_post))?>
 								</a> by
-								<a href="javascript:void(0);" class="profile-popup" rel="{{ $thread->latest_post_user_id }}">{{ $thread->latest_post_user }}</a>
+								<a href="javascript:void(0);" class="view-user-profile" rel="{{ $thread->latest_post_user_id }}">{{ $thread->latest_post_user }}</a>
 							</li>
 						@endif
 					</ul>
