@@ -14,13 +14,13 @@ class ForumController extends BaseController {
 	public function getIndex()
 	{
 		Site::setMulti(array('subSection', 'title'), 'Forum: Table of Contents');
-		return View::make('open-forum::home');
+		return View::make(Config::get('open-forum::viewsLocation').'home');
 	}
 
 	public function getHome()
 	{
 		Site::setMulti(array('subSection', 'title'), 'Forum: Table of Contents');
-		return View::make('open-forum::home');
+		return View::make(Config::get('open-forum::viewsLocation').'home');
 	}
 
 	public function getSection($uri_tag = 'general') {
@@ -38,7 +38,7 @@ class ForumController extends BaseController {
 
 		$messages['info'] = Format::pluralize('Displaying <strong>[number]</strong> [word] in <strong>'.$section->title.'</strong>.', count($threads), 'thread');
 
-		return View::make('open-forum::section')->with('section', $section)->with('threads', $threads);
+		return View::make(Config::get('open-forum::viewsLocation').'section')->with('section', $section)->with('threads', $threads);
 	}
 
 	/*public function thread($id='general') {
