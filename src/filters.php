@@ -25,10 +25,10 @@ Route::filter('forum', function()
 	Site::addTrailItem('Forum', 'forum');
 
 	//prepare views
-	View::composer('open-forum::home', function($event)
+	View::composer('open-forum::home', function($view)
 	{
 		$sections = ForumSection::all();
-		$event->view->with('sections', $sections);
+		$view->with('sections', $sections);
 	});
 });
 

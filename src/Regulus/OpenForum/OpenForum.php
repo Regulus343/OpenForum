@@ -27,6 +27,7 @@ class OpenForum {
 	/**
 	 * Get a section by its ID or URI tag.
 	 *
+	 * @param  mixed    $id
 	 * @return array
 	 */
 	public static function getSection($id)
@@ -85,7 +86,8 @@ class OpenForum {
 	 * Separates a function string "function('array')" into the
 	 * function name and the parameters for use with call_user_func.
 	 *
-	 * @return stdObject
+	 * @param  string   $function
+	 * @return object
 	 */
 	public static function separateFunction($function)
 	{
@@ -102,6 +104,7 @@ class OpenForum {
 	/**
 	 * Calls a function using call_user_func and call_user_func array.
 	 *
+	 * @param  object   $function
 	 * @return boolean
 	 */
 	public static function callFunction($function)
