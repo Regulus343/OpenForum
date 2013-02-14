@@ -10,7 +10,7 @@
 		@foreach ($sections as $section)
 
 			<li class="full-link">
-				<a href="{{ URL::to('forum/'.$section->uri_tag) }}" class="full-link"></a>
+				<a href="{{{ URL::to('forum/'.$section->uri_tag) }}}" class="full-link"></a>
 
 				<h1><?=$section->title?></h1>
 
@@ -21,10 +21,10 @@
 						<li>
 							<label>Latest Post:</label>
 							<span>
-								<a href="{{ URL::to('forum/'.$section->latest_post_thread_id.'#post'.$forumSection->latest_post_id) }}">
+								<a href="{{{ URL::to('forum/'.$section->latest_post_thread_id.'#post'.$forumSection->latest_post_id) }}}">
 									{{ date('M j, Y \a\t g:ia', strtotime($section->date_latest_post)) }}
 								</a> by
-								<a href="{{ URL::to('member/'.$section->latest_post_username) }}">{{ $section->latest_post_user }}</a>
+								<a href="{{{ URL::to('member/'.$section->latest_post_username) }}}">{{ $section->latest_post_user }}</a>
 							</span>
 						</li>
 					@endif
