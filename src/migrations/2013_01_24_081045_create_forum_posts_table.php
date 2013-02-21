@@ -17,8 +17,10 @@ class CreateForumPostsTable extends Migration {
 			$table->integer('user_id');
 			$table->integer('section_id');
 			$table->integer('thread_id');
+
 			$table->text('content');
 			$table->integer('root');
+
 			$table->timestamps();
 			$table->integer('deleted');
 			$table->datetime('deleted_at');

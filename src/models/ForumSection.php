@@ -11,4 +11,11 @@ class ForumSection extends Eloquent {
 	 */
 	protected $table = 'forum_sections';
 
+	/**
+	 * Turn off timestamps.
+	 *
+	 * @var string
+	 */
+	public $timestamps = false;
+
 }
