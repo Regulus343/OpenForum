@@ -9,7 +9,7 @@ class ForumSectionsTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		DB::table('forum_sections')->delete();
+		DB::table('forum_sections')->truncate();
 
 		$forumSections = array(
 			array(
@@ -17,13 +17,11 @@ class ForumSectionsTableSeeder extends Seeder {
 				'title'       => 'General Discussion',
 				'description' => 'Anything goes here. Discuss anything you want.',
 			),
-
 			array(
 				'uri_tag'     => 'questions',
 				'title'       => 'Questions',
 				'description' => 'Ask the community a question...',
 			),
-
 			array(
 				'uri_tag'     => 'announcements',
 				'title'       => 'Official Announcements',
