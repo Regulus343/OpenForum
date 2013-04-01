@@ -11,6 +11,13 @@ class ForumPost extends Eloquent {
 	 */
 	protected $table = 'forum_posts';
 
+	/**
+	 * The attributes that cannot be updated.
+	 *
+	 * @var array
+	 */
+	protected $guarded = array('id');
+
 	public function section()
 	{
 		return $this->belongsTo('ForumThread', 'thread_id');

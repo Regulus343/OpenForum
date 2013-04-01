@@ -18,4 +18,11 @@ class ForumSection extends Eloquent {
 	 */
 	public $timestamps = false;
 
+	/**
+	 * The attributes that cannot be updated.
+	 *
+	 * @var array
+	 */
+	protected $guarded = array('id');
+
 }
