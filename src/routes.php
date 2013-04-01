@@ -12,7 +12,6 @@
 */
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\View;
 
 //add short routes for all forum sections ("forum/general" instead of "forum/section/general")
 $sections = ForumSection::get(array('uri_tag'));
