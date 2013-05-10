@@ -30,7 +30,7 @@ class ForumSectionsTableSeeder extends Seeder {
 		);
 
 		foreach ($forumSections as $forumSection) {
-			Regulus\OpenForum\ForumSection::create($forumSection);
+			DB::table('forum_sections')->insert($forumSection);
 		}
 	}
 

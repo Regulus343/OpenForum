@@ -6,9 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Regulus\\SolidSite' => $vendorDir . '/regulus/solid-site/src/',
-    'Regulus\\OpenForum' => $baseDir . '/src/',
-    'Illuminate\\Support' => $vendorDir . '/illuminate/support/',
-    'HTMLPurifier_' => $vendorDir . '/nick4fake/htmlpurifier/HTMLPurifier/',
-    'HTMLPurifier' => $vendorDir . '/nick4fake/htmlpurifier/',
+    'Regulus\\SolidSite' => $vendorDir . '/regulus/solid-site/src',
+    'Regulus\\OpenForum' => $baseDir . '/src',
+    'Illuminate\\Support' => $vendorDir . '/illuminate/support',
+    'HTMLPurifier_' => $vendorDir . '/nick4fake/htmlpurifier/HTMLPurifier',
+    'HTMLPurifier' => $vendorDir . '/nick4fake/htmlpurifier',
 );
