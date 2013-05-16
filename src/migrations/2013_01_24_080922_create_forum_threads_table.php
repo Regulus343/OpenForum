@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateForumThreadsTable extends Migration {
@@ -11,7 +12,7 @@ class CreateForumThreadsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('forum_threads', function($table)
+		Schema::create('forum_threads', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('section_id');

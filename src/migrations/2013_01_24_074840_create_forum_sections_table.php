@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateForumSectionsTable extends Migration {
@@ -11,7 +12,7 @@ class CreateForumSectionsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('forum_sections', function($table)
+		Schema::create('forum_sections', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('uri_tag', 32);
