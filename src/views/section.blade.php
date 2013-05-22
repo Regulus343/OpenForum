@@ -4,7 +4,9 @@
 
 	<p>{{{ $section->description }}}</p>
 
-	@include('open-forum::common.messages')
+	@include('open-forum::partials.nav')
+
+	@include('open-forum::partials.messages')
 
 	@if (!empty($forum_threads))
 
@@ -12,7 +14,7 @@
 			@foreach ($forum_threads as $thread)
 
 				<li class="full-link">
-					<a href="{{{ URL::to('forum/'.$thread->id) }}}" class="full-link"></a>
+					<a href="{{ URL::to('forum/'.$thread->id) }}" class="full-link"></a>
 
 					<h1>{{ $thread->title }}</h1>
 
@@ -41,7 +43,7 @@
 						@endif
 					</ul>
 
-					<p>{{ character_limiter(strip_tags($thread->content), 360, '...') }}</p>
+					<p>{{ Format::charLimit($thread->content, 360, '...', false, true) }}</p>
 				</li>
 
 			@endforeach

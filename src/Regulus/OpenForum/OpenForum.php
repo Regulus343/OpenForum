@@ -5,7 +5,7 @@
 		A light, effective discussion forum composer package that is easy to configure and implement.
 
 		created by Cody Jassman
-		last updated on February 5, 2013
+		last updated on May 21, 2013
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;
@@ -25,14 +25,14 @@ class OpenForum {
 	}
 
 	/**
-	 * Get a section by its ID or URI tag.
+	 * Get a section by its ID or slug.
 	 *
 	 * @param  mixed    $id
 	 * @return array
 	 */
 	public static function getSection($id)
 	{
-		return ForumSection::where('id', '=', $id)->orWhere('uri_tag', '=', $id)->first();
+		return ForumSection::where('id', '=', $id)->orWhere('slug', '=', $id)->first();
 	}
 
 	/**

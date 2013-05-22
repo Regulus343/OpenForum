@@ -4,13 +4,15 @@
 
 	<p>The forum is divided into <strong>{{ count($sections) }}</strong> different sections. You may select a section below to see the threads it contains.</p>
 
-	@include('open-forum::common.messages')
+	@include('open-forum::partials.nav')
+
+	@include('open-forum::partials.messages')
 
 	<ul class="content" id="forum-sections">
 		@foreach ($sections as $section)
 
 			<li class="full-link">
-				<a href="{{{ URL::to('forum/'.$section->uri_tag) }}}" class="full-link"></a>
+				<a href="{{ URL::to('forum/'.$section->slug) }}" class="full-link"></a>
 
 				<h1><?=$section->title?></h1>
 
@@ -30,7 +32,7 @@
 					@endif
 				</ul>
 
-				<p>{{ $section->description }}</p>
+				<p>{{ Format::paragraphs($section->description) }}</p>
 			</li>
 
 		@endforeach

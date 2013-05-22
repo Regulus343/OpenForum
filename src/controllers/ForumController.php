@@ -23,22 +23,23 @@ class ForumController extends BaseController {
 		return View::make(Config::get('open-forum::viewsLocation').'home');
 	}
 
-	public function getSection($uri_tag = 'general') {
-		$section = ForumSection::where('uri_tag', '=', $uri_tag)->first();
+	public function getSection($slug = 'general') {
+		$section = ForumSection::where('slug', '=', $slug)->first();
 		if (empty($section)) {
 			return Redirect::to('forum')->with('messages', array('error' => 'The section you requested does not exist.'));
 		}
 
-		Site::set('forumSectionURI', $section->uri_tag);
+		Site::set('forumSectionURI', $section->slug);
 		Site::setMulti(array('subSection', 'title'), 'Forum: '.$section->title);
 
-		Site::addTrailItem($section->title, 'forum/'.$uri_tag);
+		Site::addTrailItem($section->title, 'forum/'.$slug);
 
-		$threads = ForumThread::where('section_id', '=', $section->id)->orderBy('id')->get();
+		$messages['info'] = Format::pluralize('Displaying <strong>[number]</strong> [word] in <strong>'.$section->title.'</strong>.', count($section->threads), 'thread');
 
-		$messages['info'] = Format::pluralize('Displaying <strong>[number]</strong> [word] in <strong>'.$section->title.'</strong>.', count($threads), 'thread');
-
-		return View::make(Config::get('open-forum::viewsLocation').'section')->with('section', $section)->with('threads', $threads);
+		return View::make(Config::get('open-forum::viewsLocation').'section')
+			->with('section', $section)
+			->with('threads', $section->threads)
+			->with('messages', $messages);
 	}
 
 	/*public function thread($id='general') {

@@ -15,7 +15,7 @@ class CreateForumSectionsTable extends Migration {
 		Schema::create('forum_sections', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('uri_tag', 32);
+			$table->string('slug', 64);
 			$table->string('title');
 			$table->text('description');
 		});

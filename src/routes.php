@@ -14,9 +14,9 @@
 use Illuminate\Support\Facades\Route;
 
 /* Add Short Routes for Forum Sections ("forum/general" in addition to "forum/section/general") */
-$sections = ForumSection::get(array('uri_tag'));
+$sections = ForumSection::get(array('slug'));
 foreach ($sections as $section) {
-	Route::any('forum/{'.$section->uri_tag.'}', 'Regulus\OpenForum\ForumController@getSection');
+	Route::any('forum/{'.$section->slug.'}', 'Regulus\OpenForum\ForumController@getSection');
 }
 
 /* Map Controller */
