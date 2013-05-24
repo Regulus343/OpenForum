@@ -6,9 +6,9 @@
 
 	<p>{{{ $section->description }}}</p>
 
-	@include('open-forum::partials.nav')
-
 	@include('open-forum::partials.messages')
+
+	@include('open-forum::partials.nav')
 
 	@if (!empty($forum_threads))
 

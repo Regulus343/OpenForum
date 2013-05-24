@@ -24,12 +24,11 @@ class ForumController extends BaseController {
 	}
 
 	public function getSection($slug = 'general') {
-		$section = ForumSection::where('slug', '=', $slug)->first();
+		$section = ForumSection::bySlug($slug);
 		if (empty($section)) {
 			return Redirect::to('forum')->with('messages', array('error' => 'The section you requested does not exist.'));
 		}
 
-		Site::set('forumSectionURI', $section->slug);
 		Site::setMulti(array('subSection', 'title'), 'Forum: '.$section->title);
 
 		Site::addTrailItem($section->title, 'forum/'.$slug);
@@ -42,18 +41,16 @@ class ForumController extends BaseController {
 			->with('messages', $messages);
 	}
 
-	/*public function thread($id='general') {
-		$this->data['forum_section'] = $this->forum->section($id);
-		if (!empty($id)) {
-			$id = "";
-		} else {
-			$this->data['thread'] = $this->forum->thread($id);
-			if (empty($this->data['thread'])) $id = "";
-			$this->data['forum_section'] = $this->forum->section($this->data['thread']->section_uri);
+	/*public function getCreateThread($id = 'general') {
+		Site::set('forumSection', OpenForum::section($id));
+
+		if ($id != "") {
+			$thread = ForumThread::find($id);
+			if (empty($thread)) $id = "";
+			$section = ForumSection::bySlug($thread->slug);
 		}
-		if (empty($this->data['forum_section'])) redirect('forum');
-		$this->data['id'] = $id;
-		$this->data['section_uri'] = $this->data['forum_section']->uri_tag;
+
+		if (empty($section)) return Redirect::to('forum')->with('messageError', 'The section you selected does not exist.');
 
 		if (!$this->auth->active()) {
 			flash('error', 'You cannot interact on the forum unless you <a href="'.site_url('login').'">log in</a> or <a href="'.site_url('signup').'">create an account</a>.', 'forum/'.$this->data['section_uri']);

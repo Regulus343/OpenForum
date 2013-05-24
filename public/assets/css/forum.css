@@ -2,6 +2,11 @@
 
 input.grey, textarea.grey, select.grey { color: #777; }
 
+ul#forum-nav {
+	float: right;
+	list-style: none;
+}
+
 div#loading-forum-posts {
 	clear: both;
 	margin: 18px auto;

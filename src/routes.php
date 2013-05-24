@@ -20,4 +20,6 @@ foreach ($sections as $section) {
 }
 
 /* Map Controller */
-Route::controller('forum', 'Regulus\OpenForum\ForumController');
+Route::controller('forum',       'Regulus\OpenForum\ForumController');
+
+Route::get('thread/create/{id}', 'Regulus\OpenForum\ForumController@getCreateThread');
