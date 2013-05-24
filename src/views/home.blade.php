@@ -24,16 +24,16 @@
 						<span>{{ $section->threads->count() }}</span>
 					</li><li>
 						<label>Posts:</label>
-						<span>{{ $section->threads->posts->count() }}</span>
+						<span>{{ $section->getNumberOfPosts() }}</span>
 					</li>
-					@if ($section->latest_post_username)
+					@if (!empty($section->latest_post))
 						<li>
 							<label>Latest Post:</label>
 							<span>
-								<a href="{{ URL::to('forum/'.$section->latest_post_thread_id.'#post'.$section->latest_post_id) }}">
-									{{ date('M j, Y \a\t g:ia', strtotime($section->date_latest_post)) }}
+								<a href="{{ URL::to('forum/'.$section->latest_post->thread_id.'#post'.$section->latest_post->id) }}">
+									{{ date('M j, Y \a\t g:ia', strtotime($section->latest_post->created_at)) }}
 								</a> by
-								<a href="{{ URL::to('member/'.$section->latest_post_username) }}">{{ $section->latest_post_user }}</a>
+								<a href="{{ URL::to('member/'.$section->latest_post->username) }}">{{ $section->latest_post->username }}</a>
 							</span>
 						</li>
 					@endif

@@ -21,7 +21,11 @@ class OpenForum {
 	 */
 	public static function getSections()
 	{
-		return ForumSection::all();
+		$sections = ForumSection::all();
+		foreach ($sections as $section) {
+			$section->latest_post = $section->getLatestPost();
+		}
+		return $sections;
 	}
 
 	/**

@@ -6,6 +6,7 @@ ul#forum-nav {
 	float: right;
 	list-style: none;
 }
+ul#forum-nav li { display: inline-block; margin: 0 4px 0 0; }
 
 div#loading-forum-posts {
 	clear: both;

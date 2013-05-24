@@ -36,13 +36,17 @@ class ForumSection extends Eloquent {
 	}
 
 	/**
-	 * The posts that belong to the section.
+	 * The number of posts that belong to the section.
 	 *
 	 * @var    object
 	 */
-	public function posts()
+	public function getNumberOfPosts()
 	{
-		return $this->threads()->posts();
+		$posts = 0;
+		foreach ($this->threads as $thread) {
+			$posts += $thread->posts->count();
+		}
+		return $posts;
 	}
 
 	/**
@@ -60,9 +64,9 @@ class ForumSection extends Eloquent {
 	 *
 	 * @return object
 	 */
-	public function getLatestPost($slug = '')
+	public function getLatestPost()
 	{
-		return $this->threads()->posts()->orderBy('id', 'desc')->first();
+		return ForumPost::where('section_id', '=', $this->id)->orderBy('id', 'desc')->first();
 	}
 
 }
