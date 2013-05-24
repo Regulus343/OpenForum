@@ -2,7 +2,7 @@
 
 input.grey, textarea.grey, select.grey { color: #777; }
 
-div#loading-comments {
+div#loading-forum-posts {
 	clear: both;
 	margin: 18px auto;
 	width: 32px;
@@ -11,9 +11,9 @@ div#loading-comments {
 	background: url('../img/loader.gif') no-repeat;
 }
 
-ul#comments, ul#posts { clear: both; margin: 0; list-style: none; }
+ul#forum-posts { clear: both; margin: 0; list-style: none; }
 
-ul#comments li, ul#posts li {
+ul#forum-posts li {
 	position: relative;
 	clear: both;
 	margin: 0 0 12px 0;
@@ -41,7 +41,7 @@ ul#comments li, ul#posts li {
 
 	box-shadow: -3px 0 8px #080808;
 }
-ul#comments li:hover, ul#posts li:hover {
+ul#forum-posts li:hover {
 	background-color: #222;
 
 	background-image: -ms-linear-gradient(top, #222 0, #090909 160px); /* IE */
@@ -56,7 +56,7 @@ ul#comments li:hover, ul#posts li:hover {
 	border-color: #ccc;
 }
 
-ul#comments li.active-user, ul#posts li.active-user {
+ul#forum-posts li.active-user {
 	background-color: #333;
 
 	background-image: -ms-linear-gradient(top, #333 0, #111 160px); /* IE */
@@ -73,19 +73,19 @@ ul#comments li.active-user, ul#posts li.active-user {
 	box-shadow: -3px 0 8px #000;
 }
 
-ul#comments li.editable, ul#posts li.editable {
+ul#forum-posts li.editable {
 	border-color: #f5eb11;
 }
 
-ul#comments li.unapproved, ul#posts li.unapproved {
+ul#forum-posts li.unapproved {
 	border: 1px dashed #555;
 }
 
-ul#comments li.deleted, ul#posts li.deleted {
+ul#forum-posts li.deleted {
 	border-color: #c00;
 }
 
-ul#comments li div.info, ul#posts li div.info {
+ul#forum-posts li div.info {
 	position: absolute;
 	top: 12px; left: 8px;
 	margin: 0 12px 0 0;
@@ -95,7 +95,7 @@ ul#comments li div.info, ul#posts li div.info {
 	border-right: 1px solid #333;
 }
 
-ul#comments li div.info ul.info, ul#posts li div.info ul.info {
+ul#forum-posts li div.info ul.info {
 	margin: 0 3px 7px 0;
 	padding: 4px 0 4px 4px;
 	width: 170px;
@@ -104,7 +104,7 @@ ul#comments li div.info ul.info, ul#posts li div.info ul.info {
 	box-shadow: none;
 }
 
-ul#comments li div.info ul.info li, ul#posts li div.info ul.info li {
+ul#forum-posts li div.info ul.info li {
 	display: block;
 	margin-bottom: 2px;
 	height: 14px;
@@ -114,33 +114,33 @@ ul#comments li div.info ul.info li, ul#posts li div.info ul.info li {
 	font-size: 11px;
 	box-shadow: none;
 }
-ul#comments li div.info ul.info li *, ul#posts li div.info ul.info li * {
+ul#forum-posts li div.info ul.info li * {
 	line-height: auto;
 }
 
-ul#comments li div.info ul.info li label, ul#posts li div.info ul.info li label {
+ul#forum-posts li div.info ul.info li label {
 	display: inline-block;
 	width: 76px;
 }
 
-ul#comments li a.display-pic, ul#posts li a.display-pic {
+ul#forum-posts li a.display-pic {
 	clear: left;
 	float: none;
 	display: block;
 	margin: 0 16px 0 0;
 }
 
-ul#comments li a.display-pic img, ul#posts li a.display-pic img {
+ul#forum-posts li a.display-pic img {
 	width: 80px;
 	border: 1px solid #666;
 	-moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px;
 }
 
-ul#comments li a.display-pic:hover img, ul#posts li a.display-pic:hover img {
+ul#forum-posts li a.display-pic:hover img {
 	border-color: #888;
 }
 
-ul#comments li div.comment, ul#posts li div.content {
+ul#forum-posts li div.post {
 	position: relative;
 	float: left;
 	margin: 0 0 16px 190px;
@@ -153,14 +153,14 @@ ul#comments li div.comment, ul#posts li div.content {
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 }
-ul#comments li div.comment div.text, ul#posts li div.content div.text {
+ul#forum-posts li div.post div.text {
 	margin: 16px 12px;
 	min-height: 80px;
 	max-height: 760px;
 	overflow: hidden;
 }
 
-ul#comments li div.comment li {
+ul#forum-posts li div.post li {
 	display: block;
 	margin-bottom: 2px;
 	background: none;
@@ -168,58 +168,58 @@ ul#comments li div.comment li {
 	box-shadow: none;
 }
 
-ul#comments li.sub div.comment { width: 616px; }
-ul#comments li div.date-posted, ul#posts li div.date-posted {
+ul#forum-posts li.sub div.post { width: 616px; }
+ul#forum-posts li div.date-posted {
 	position: absolute; right: 12px; bottom: -10px; color: #777; font-size: 11px; text-shadow: 0 1px 3px #000;
 }
 
-ul#comments li h1, ul#posts li h1 {
+ul#forum-posts li h1 {
 	margin-bottom: 4px; padding-left: 0;
 	background: none;
 	font-size: 16px;
 	line-height: auto;
 }
 
-ul#comments li li, ul#posts li li, ul#comments li li:hover, ul#posts li li:hover {
+ul#forum-posts li li, ul#forum-posts li li:hover {
 	background: none;
 	border: none;
 }
 
-ul#comments li div.comment ul, ul#comments li div.comment ol, ul#posts li div.content ul, ul#posts li div.content ol { margin-left: 24px; }
-ul#comments li div.comment ul, ul#posts li div.content ul { list-style-type: disc; }
+ul#forum-posts li div.post ul, ul#forum-posts li div.post ol { margin-left: 24px; }
+ul#forum-posts li div.post ul { list-style-type: disc; }
 
-ul#comments li ul.actions, ul#posts li ul.actions { margin: 0; float: right; max-width: 600px; list-style: none; }
-ul#comments li ul.actions li, ul#posts li ul.actions li {
+ul#forum-posts li ul.actions { margin: 0; float: right; max-width: 600px; list-style: none; }
+ul#forum-posts li ul.actions li {
 	display: inline-block;
 	margin: 0 !important;
 	padding: 0 0 0 2px;
 	box-shadow: none;
 }
-ul#comments li ul.actions a.button, ul#posts li ul.actions a.button {
+ul#forum-posts li ul.actions a.button {
 	padding: 5px 7px;
 	max-width: 600px;
 	font-size: 12px;
 }
 
-div.add-comment, div.add-post { margin: 18px 0; padding: 10px; border-top: 1px solid #444; }
-div.add-comment p, div.add-post p { margin: 0; }
-div.add-comment p.login, div.add-post p.login { font-style: italic; text-align: right; }
+div.add-post { margin: 18px 0; padding: 10px; border-top: 1px solid #444; }
+div.add-post p { margin: 0; }
+div.add-post p.login { font-style: italic; text-align: right; }
 
-form.form-comment textarea { padding: 12px; width: 640px; height: 160px; }
+form.form-post textarea { padding: 12px; width: 640px; height: 160px; }
 
-ul#comments li form.form-comment { clear: none; width: 544px; margin: 0 0 0 190px; }
-ul#comments li div.edit-comment form.form-comment { margin-left: 0; }
+ul#forum-posts li form.form-post { clear: none; width: 544px; margin: 0 0 0 190px; }
+ul#forum-posts li div.edit-post form.form-post { margin-left: 0; }
 
-ul#comments li form.form-comment textarea { width: 544px; }
-ul#comments li div.edit-comment form.form-comment textarea { width: 664px; }
-ul#comments li.sub div.edit-comment form.form-comment textarea { width: 570px; }
+ul#forum-posts li form.form-post textarea { width: 544px; }
+ul#forum-posts li div.edit-post form.form-post textarea { width: 664px; }
+ul#forum-posts li.sub div.edit-post form.form-post textarea { width: 570px; }
 
-ul#comments li div.add-comment, ul#posts li div.add-post { clear: left; margin: 12px 0 0 190px; }
-ul#comments li.reply div.add-comment, ul#posts li.reply div.add-post { margin-top: 0; border-top: none; }
+ul#forum-posts li div.add-post { clear: left; margin: 12px 0 0 190px; }
+ul#forum-posts li.reply div.add-post { margin-top: 0; border-top: none; }
 
 ul.wysihtml5-toolbar { clear: both; }
 
-ul#comments li ul.wysihtml5-toolbar > li, ul#posts li ul.wysihtml5-toolbar > li {
+ul#forum-posts li ul.wysihtml5-toolbar > li {
 	display: list-item;
 	clear: none;
 	float: left;
@@ -227,16 +227,16 @@ ul#comments li ul.wysihtml5-toolbar > li, ul#posts li ul.wysihtml5-toolbar > li 
 	margin: 0 5px 10px 0;
 }
 
-ul#comments li .message, ul#posts li .message { clear: both; margin: 12px 0 12px 190px; }
-ul#comments li .edit-comment .message, ul#posts li .edit-comment .message { margin-left: 0; }
+ul#forum-posts li .message { clear: both; margin: 12px 0 12px 190px; }
+ul#forum-posts li .edit-post .message { margin-left: 0; }
 
-ul#comments li div.edit-countdown { clear: left; padding: 0 2px 10px 2px; font-size: 14px; color: #f5eb11; text-align: right; }
-ul#comments li div.edit-countdown span.number { font-weight: bold; }
+ul#forum-posts li div.edit-countdown { clear: left; padding: 0 2px 10px 2px; font-size: 14px; color: #f5eb11; text-align: right; }
+ul#forum-posts li div.edit-countdown span.number { font-weight: bold; }
 
-ul.comments-pagination { float: right; margin: 0 12px 0 0; list-style: none; }
-ul.comments-pagination li { display: inline-block; margin: 0 6px 8px 0; font-size: 16px; }
-ul.comments-pagination li:last-child { margin-right: 0; }
-ul.comments-pagination li a { padding: 2px 5px; color: #aaa; background-color: #000; border: 1px solid #888; }
-ul.comments-pagination li a:hover { border-color: #ddd; text-decoration: none; }
+ul.forum-posts-pagination { float: right; margin: 0 12px 0 0; list-style: none; }
+ul.forum-posts-pagination li { display: inline-block; margin: 0 6px 8px 0; font-size: 16px; }
+ul.forum-posts-pagination li:last-child { margin-right: 0; }
+ul.forum-posts-pagination li a { padding: 2px 5px; color: #aaa; background-color: #000; border: 1px solid #888; }
+ul.forum-posts-pagination li a:hover { border-color: #ddd; text-decoration: none; }
 
-ul.comments-pagination li.selected a { border-color: #f5eb11; color: #fff; }
+ul.forum-posts-pagination li.selected a { border-color: #f5eb11; color: #fff; }
