@@ -2,6 +2,8 @@
 
 @section(Config::get('open-forum::section'))
 
+	@include('open-forum::partials.included_files')
+
 	<p>{{{ $section->description }}}</p>
 
 	@include('open-forum::partials.nav')

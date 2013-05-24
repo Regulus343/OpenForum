@@ -2,6 +2,8 @@
 
 @section(Config::get('open-forum::section'))
 
+	@include('open-forum::partials.included_files')
+
 	<p>The forum is divided into <strong>{{ count($sections) }}</strong> different sections. You may select a section below to see the threads it contains.</p>
 
 	@include('open-forum::partials.nav')

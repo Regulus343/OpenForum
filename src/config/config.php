@@ -74,4 +74,41 @@ return array(
 	|
 	*/
 	'authMethodAdminCheck'  => false,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Load jQuery
+	|--------------------------------------------------------------------------
+	|
+	| Whether or not to have Open Comments automatically load jQuery.
+	| Turn this off if your website already loads jQuery.
+	|
+	*/
+	'loadJquery' => true,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Load Bootstrap
+	|--------------------------------------------------------------------------
+	|
+	| Whether or not to have Open Comments automatically load Twitter Bootsrap.
+	| If set to false, Open Comments will assume you are already loading
+	| Bootstrap CSS and JS files. If true, Open Comments will attempt to load
+	| "bootstrap.css" and "bootstrap.min.js".
+	|
+	*/
+	'loadBootstrap' => true,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Load Boxy
+	|--------------------------------------------------------------------------
+	|
+	| By default, Open Comments makes use of the lightweight javascript
+	| library Boxy for modal windows like comment deleting confirmation.
+	| You may turn off Boxy if you intend to use another modal window script.
+	|
+	*/
+	'loadBoxy' => true,
+
 );
