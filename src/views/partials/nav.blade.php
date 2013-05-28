@@ -9,7 +9,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ URL::to('forum/thread/'.$section->slug) }}" class="button">
+				<a href="{{ URL::to('forum/thread/create/'.$section->slug) }}" class="button">
 					<div class="icon icon-th-list"></div>Create New Thread
 				</a>
 			</li>
@@ -27,4 +27,5 @@
 			<a href="{{ URL::to('login') }}">Log in</a> or <a href="{{ URL::to('signup') }}">sign up</a> to interact with the community.
 		</p>
 	@endif
-</ul>
+</ul><!-- /#forum-nav -->
+<div class="clear"></div>

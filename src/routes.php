@@ -19,7 +19,8 @@ foreach ($sections as $section) {
 	Route::any('forum/{'.$section->slug.'}', 'Regulus\OpenForum\ForumController@getSection');
 }
 
-/* Map Controller */
-Route::controller('forum',       'Regulus\OpenForum\ForumController');
+/* Create, Edit, and Delete - Thread & Post */
+Route::get('forum/thread/create/{slug?}', 'Regulus\OpenForum\ForumController@getCreateThread');
 
-Route::get('thread/create/{id}', 'Regulus\OpenForum\ForumController@getCreateThread');
+/* Map Controller */
+Route::controller('forum',                'Regulus\OpenForum\ForumController');

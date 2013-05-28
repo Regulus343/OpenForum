@@ -23,11 +23,11 @@ class ForumController extends BaseController {
 		return View::make(Config::get('open-forum::viewsLocation').'home');
 	}
 
-	public function getSection($slug = 'general') {
+	public function getSection($slug = 'general')
+	{
 		$section = ForumSection::bySlug($slug);
-		if (empty($section)) {
-			return Redirect::to('forum')->with('messages', array('error' => 'The section you requested does not exist.'));
-		}
+		if (empty($section))
+			return Redirect::to('forum')->with('messageError', Lang::get('open-forum::messages.errorSectionNotExistent'));
 
 		Site::setMulti(array('subSection', 'title'), 'Forum: '.$section->title);
 
@@ -41,25 +41,116 @@ class ForumController extends BaseController {
 			->with('messages', $messages);
 	}
 
-	/*public function getCreateThread($id = 'general') {
+	public function getCreateThread($slug = 'general')
+	{
+		$section = ForumSection::bySlug($slug);
+		if (empty($section))
+			return Redirect::to('forum/'.$section->slug)
+				->with('messageError', Lang::get('open-forum::messages.errorSectionNotExistent'));
+
+		if (!OpenForum::auth())
+			return Redirect::to('forum/'.$section->slug)
+				->with('messageError', Lang::get('open-forum::messages.errorLogIn', array('linkLogIn' => '<a href="'.URL::to('login').'">log in</a>', 'linkCreateAccount' => '<a href="'.URL::to('signup').'">create an account</a>')));
+
+		Site::set('subSection', 'Forum: '.$section->title);
+		Site::set('forumSection', $section->title);
+
+		Site::addTrailItem($section->title, 'forum/'.$section->slug);
+
+		Site::set('title', 'Forum: Create Thread in '.$section->title.' Section');
+		Site::addTrailItem('Create Thread', 'forum/thread/'.$section->slug.'/create');
+
+		return View::make(Config::get('open-forum::viewsLocation').'create')->with('section', $section);
+	}
+
+	public function postCreateThread($slug = 'general')
+	{
+		$section = ForumSection::bySlug($slug);
+
+		if (empty($section))
+			return Redirect::to('forum/'.$section->slug)
+				->with('messageError', Lang::get('open-forum::messages.errorSectionNotExistent'));
+
+		if (!OpenForum::auth())
+			return Redirect::to('forum/'.$section->slug)
+				->with('messageError', Lang::get('You cannot interact on the forum unless you :linkLogIn or :linkCreateAccount.', array('linkLogIn' => '<a href="'.URL::to('login').'">log in</a>', 'linkCreateAccount' => '<a href="'.URL::to('signup').'">create an account</a>')));
+
+		Site::set('subSection', 'Forum: '.$section->title);
+		Site::set('forumSection', $section->title);
+
+		Site::addTrailItem($section->title, 'forum/'.$section->slug);
+
+		Site::set('title', 'Forum: Create Thread in '.$section->title.' Section');
+		Site::addTrailItem('Create Thread', 'forum/thread/'.$section->slug.'/create');
+
+		$rules = array(
+			'title'   => array('required', 'min:3'),
+			'content' => array('required'),
+		);
+
+		$preview = (bool) Input::get('preview');
+
+		//if user is previewing post, do not validate form
+		if ($preview) {
+			$rules['prevent_validation'] = array('required');
+		}
+		Form::setValidationRules($rules);
+
+		$messages = array();
+		if (Form::validated()) {
+			$threadID = ForumThread::createUpdate();
+			if ($threadID) {
+				return Redirect::to('success')
+					->with('messageSuccess', Lang::get('open-forum::messages.successThreadCreated'));
+			} else {
+				$messages = array('error' => Lang::get('open-forum::messages.errorThreadNotFound'));
+			}
+		} else {
+			if ($preview) {
+				$messages = array(
+					'success'    => Lang::get('open-forum::messages.successPreviewingThread'),
+					'successSub' => Lang::get('open-forum::messages.successPreviewingThreadSub', array('createThread' => Lang::get('open-forum::labels.createThread'))),
+				);
+			} else {
+				$messages = array('error' => Lang::get('open-forum::messages.errorGeneral'));
+			}
+		}
+
+		return View::make(Config::get('open-forum::viewsLocation').'create')
+			->with('section', $section)
+			->with('messages', $messages);
+	}
+
+
+	/*public function getEditCreateThread($id = 'general')
+	{
 		Site::set('forumSection', OpenForum::section($id));
 
+		$thread = array();
 		if ($id != "") {
-			$thread = ForumThread::find($id);
-			if (empty($thread)) $id = "";
-			$section = ForumSection::bySlug($thread->slug);
+			if (is_int($id)) {
+				$thread = ForumThread::find($id);
+				if (empty($thread)) $id = "";
+				$section = ForumSection::bySlug($thread->slug);
+			} else {
+				$section = ForumSection::bySlug($id);
+			}
 		}
 
-		if (empty($section)) return Redirect::to('forum')->with('messageError', 'The section you selected does not exist.');
+		if (empty($section))
+			return Redirect::to('forum/'.$section->slug)
+				->with('messageError', Lang::get('open-forum::messages.errorSectionNotExistent'));
 
-		if (!$this->auth->active()) {
-			flash('error', 'You cannot interact on the forum unless you <a href="'.site_url('login').'">log in</a> or <a href="'.site_url('signup').'">create an account</a>.', 'forum/'.$this->data['section_uri']);
+		if (Auth::guest()) {
+			return Redirect::to('forum/'.$section->slug)
+				->with('messageError', Lang::get('You cannot interact on the forum unless you :linkLogIn or :linkCreateAccount.', array('linkLogIn' => '<a href="'.URL::to('login').'">log in</a>', 'linkCreateAccount' => '<a href="'.URL::to('signup').'">create an account</a>'));
 		}
 
-		$this->config->set_item('sub_section', 'Forum: '.$this->data['forum_section']->title);
-		$this->layout->add_trail($this->data['forum_section']->title, 'forum/'.$this->data['section_uri']);
-		if ($this->data['id'] != "") {
-			$this->config->set_item('title', $this->config->item('sub_section'));
+		Site::set('subSection', 'Forum: '.$section->title);
+
+		Site::addTrailItem($section->title, 'forum/'.$section->slug);
+		if (!empty($thread)) {
+			Site::set('title', 'Forum: '.$thread->title.' (Edit)');
 			$this->layout->add_trail($this->data['thread']->title, 'forum/thread/'.$this->data['section_uri']);
 		} else {
 			$this->config->set_item('title', 'Forum: New Thread');
@@ -97,7 +188,8 @@ class ForumController extends BaseController {
 		$this->load->view('forum/thread_add', $this->data);
 	}
 
-	public function thread_view($id='') {
+	public function thread_view($id='')
+	{
 		$this->data['thread'] = $this->forum->thread($id);
 		if (empty($this->data['thread'])) flash('error', 'The selected thread was not found.', 'forum');
 		$this->data['thread_id'] = $id;
@@ -118,7 +210,8 @@ class ForumController extends BaseController {
 		$this->load->view('forum/thread', $this->data);
 	}
 
-	public function add_post() {
+	public function add_post()
+	{
 		$result = $this->forum->add_update_post();
 		if ($result['result'] == "Error") {
 			set_cookie(array('name'=>	'post_incomplete',

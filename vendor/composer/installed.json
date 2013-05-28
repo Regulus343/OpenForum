@@ -7,12 +7,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/support.git",
-            "reference": "e09f68ae78aab398fd3c8e8f814df89b03c2a817"
+            "reference": "9e74c0b4eccc3f3edbcec18b4b95994c0554b0f7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/support/zipball/e09f68ae78aab398fd3c8e8f814df89b03c2a817",
-            "reference": "e09f68ae78aab398fd3c8e8f814df89b03c2a817",
+            "url": "https://api.github.com/repos/illuminate/support/zipball/9e74c0b4eccc3f3edbcec18b4b95994c0554b0f7",
+            "reference": "9e74c0b4eccc3f3edbcec18b4b95994c0554b0f7",
             "shasum": ""
         },
         "require": {
@@ -23,7 +23,7 @@
             "patchwork/utf8": "1.1.*",
             "phpunit/phpunit": "3.7.*"
         },
-        "time": "2013-05-19 03:05:01",
+        "time": "2013-05-27 19:37:41",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -89,19 +89,19 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Regulus343/SolidSite.git",
-            "reference": "1030e196bc69e3be6762b9485722f12488def98a"
+            "reference": "c25565a9632c90611a84e28cdeb02d97ad304624"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Regulus343/SolidSite/zipball/1030e196bc69e3be6762b9485722f12488def98a",
-            "reference": "1030e196bc69e3be6762b9485722f12488def98a",
+            "url": "https://api.github.com/repos/Regulus343/SolidSite/zipball/c25565a9632c90611a84e28cdeb02d97ad304624",
+            "reference": "c25565a9632c90611a84e28cdeb02d97ad304624",
             "shasum": ""
         },
         "require": {
             "illuminate/support": "4.0.x",
             "php": ">=5.3.0"
         },
-        "time": "2013-05-24 03:31:07",
+        "time": "2013-05-28 03:32:17",
         "type": "library",
         "installation-source": "source",
         "autoload": {
