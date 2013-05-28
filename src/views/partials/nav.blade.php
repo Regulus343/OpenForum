@@ -1,18 +1,30 @@
 <ul id="forum-nav">
 	@if (Regulus\OpenForum\OpenForum::auth())
 
-		@if (isset($section) && !empty($section) && (Regulus\OpenForum\OpenForum::admin() || !$section->new_thread_admin))
+		@if (Site::get('subSection') == "Forum: Create Thread")
+			<li>
+				<a href="{{ URL::to('forum/'.$section->slug) }}" class="button">
+					<div class="icon icon-arrow-left"></div>Return to {{ $section->title }}
+				</a>
+			</li>
+		@else
 
-			<li>
-				<a href="{{ URL::to('forum') }}" class="button">
-					<div class="icon icon-arrow-left"></div>Return to Sections Menu
-				</a>
-			</li>
-			<li>
-				<a href="{{ URL::to('forum/thread/create/'.$section->slug) }}" class="button">
-					<div class="icon icon-th-list"></div>Create New Thread
-				</a>
-			</li>
+			@if (isset($section) && !empty($section) && (Regulus\OpenForum\OpenForum::admin() || !$section->new_thread_admin))
+
+				<li>
+					<a href="{{ URL::to('forum') }}" class="button">
+						<div class="icon icon-arrow-left"></div>Return to Sections Menu
+					</a>
+				</li>
+
+				@if (Regulus\OpenForum\OpenForum::admin() || !$section->admin_create_thread)
+					<li>
+						<a href="{{ URL::to('forum/thread/create/'.$section->slug) }}" class="button">
+							<div class="icon icon-th-list"></div>Create New Thread
+						</a>
+					</li>
+				@endif
+			@endif
 
 		@endif
 

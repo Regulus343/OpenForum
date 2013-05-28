@@ -63,9 +63,42 @@ class OpenForum {
 	{
 		$auth = static::configAuth();
 		if ($auth->methodAdminCheck) {
-			$function = static::separateFunction($auth->methodAdminCheck);
+			if (static::auth()) {
+				$user = static::user();
+				if ($user->roles[0]->role == $auth->methodAdminRole) return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Gets the active user.
+	 *
+	 * @return boolean
+	 */
+	public static function user()
+	{
+		$auth = static::configAuth();
+		if ($auth->methodActiveUser != false) {
+			$function = static::separateFunction($auth->methodActiveUser);
 			return static::callFunction($function);
 		}
+		return false;
+	}
+
+	/**
+	 * Gets the active user ID.
+	 *
+	 * @return boolean
+	 */
+	public static function userID()
+	{
+		$auth = static::configAuth();
+		$user = static::user();
+
+		if (isset($user->{$auth->methodActiveUserID}))
+			return $user->{$auth->methodActiveUserID};
+
 		return false;
 	}
 
@@ -78,9 +111,12 @@ class OpenForum {
 	{
 		if (is_null(static::$auth)) {
 			static::$auth = (object) array(
-				'class'             => Config::get('open-forum::authClass'),
-				'methodActiveCheck' => Config::get('open-forum::authMethodActiveCheck'),
-				'methodAdminCheck'  => Config::get('open-forum::authMethodAdminCheck'),
+				'class'              => Config::get('open-forum::authClass'),
+				'methodActiveCheck'  => Config::get('open-forum::authMethodActiveCheck'),
+				'methodActiveUser'   => Config::get('open-forum::authMethodActiveUser'),
+				'methodActiveUserID' => Config::get('open-forum::authMethodActiveUserID'),
+				'methodAdminCheck'   => Config::get('open-forum::authMethodAdminCheck'),
+				'methodAdminRole'    => Config::get('open-forum::authMethodAdminRole'),
 			);
 		}
 		return static::$auth;

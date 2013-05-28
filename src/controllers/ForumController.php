@@ -3,9 +3,12 @@
 use \BaseController;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
 
+use Aquanode\Formation\Formation as Form;
 use Regulus\TetraText\TetraText as Format;
 use Regulus\SolidSite\SolidSite as Site;
 
@@ -52,13 +55,13 @@ class ForumController extends BaseController {
 			return Redirect::to('forum/'.$section->slug)
 				->with('messageError', Lang::get('open-forum::messages.errorLogIn', array('linkLogIn' => '<a href="'.URL::to('login').'">log in</a>', 'linkCreateAccount' => '<a href="'.URL::to('signup').'">create an account</a>')));
 
-		Site::set('subSection', 'Forum: '.$section->title);
+		Site::set('subSection', 'Forum: Create Thread');
 		Site::set('forumSection', $section->title);
 
 		Site::addTrailItem($section->title, 'forum/'.$section->slug);
 
 		Site::set('title', 'Forum: Create Thread in '.$section->title.' Section');
-		Site::addTrailItem('Create Thread', 'forum/thread/'.$section->slug.'/create');
+		Site::addTrailItem('Create Thread', 'forum/thread/create/'.$section->slug);
 
 		return View::make(Config::get('open-forum::viewsLocation').'create')->with('section', $section);
 	}
@@ -73,19 +76,19 @@ class ForumController extends BaseController {
 
 		if (!OpenForum::auth())
 			return Redirect::to('forum/'.$section->slug)
-				->with('messageError', Lang::get('You cannot interact on the forum unless you :linkLogIn or :linkCreateAccount.', array('linkLogIn' => '<a href="'.URL::to('login').'">log in</a>', 'linkCreateAccount' => '<a href="'.URL::to('signup').'">create an account</a>')));
+				->with('messageError', Lang::get('open-forum::messages.errorLogIn', array('linkLogIn' => '<a href="'.URL::to('login').'">log in</a>', 'linkCreateAccount' => '<a href="'.URL::to('signup').'">create an account</a>')));
 
-		Site::set('subSection', 'Forum: '.$section->title);
+		Site::set('subSection', 'Forum: Create Thread');
 		Site::set('forumSection', $section->title);
 
 		Site::addTrailItem($section->title, 'forum/'.$section->slug);
 
 		Site::set('title', 'Forum: Create Thread in '.$section->title.' Section');
-		Site::addTrailItem('Create Thread', 'forum/thread/'.$section->slug.'/create');
+		Site::addTrailItem('Create Thread', 'forum/thread/create/'.$section->slug);
 
 		$rules = array(
 			'title'   => array('required', 'min:3'),
-			'content' => array('required'),
+			'content' => array('required', 'min:24'),
 		);
 
 		$preview = (bool) Input::get('preview');
@@ -98,12 +101,12 @@ class ForumController extends BaseController {
 
 		$messages = array();
 		if (Form::validated()) {
-			$threadID = ForumThread::createUpdate();
-			if ($threadID) {
-				return Redirect::to('success')
-					->with('messageSuccess', Lang::get('open-forum::messages.successThreadCreated'));
+			$results = ForumThread::createUpdate();
+			if ($results['threadID']) {
+				return Redirect::to('forum/thread/'.$results['threadSlug'])
+					->with('messageSuccess', $results['message']);
 			} else {
-				$messages = array('error' => Lang::get('open-forum::messages.errorThreadNotFound'));
+				$messages = array('error' => $results['message']);
 			}
 		} else {
 			if ($preview) {

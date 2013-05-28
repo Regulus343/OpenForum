@@ -21,6 +21,7 @@ foreach ($sections as $section) {
 
 /* Create, Edit, and Delete - Thread & Post */
 Route::get('forum/thread/create/{slug?}', 'Regulus\OpenForum\ForumController@getCreateThread');
+Route::post('forum/thread/create/{slug?}', 'Regulus\OpenForum\ForumController@postCreateThread');
 
 /* Map Controller */
 Route::controller('forum',                'Regulus\OpenForum\ForumController');

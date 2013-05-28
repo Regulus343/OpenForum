@@ -7,12 +7,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/support.git",
-            "reference": "9e74c0b4eccc3f3edbcec18b4b95994c0554b0f7"
+            "reference": "6ae40372bb0a2ca2a6403ed9107287937038277e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/support/zipball/9e74c0b4eccc3f3edbcec18b4b95994c0554b0f7",
-            "reference": "9e74c0b4eccc3f3edbcec18b4b95994c0554b0f7",
+            "url": "https://api.github.com/repos/illuminate/support/zipball/6ae40372bb0a2ca2a6403ed9107287937038277e",
+            "reference": "6ae40372bb0a2ca2a6403ed9107287937038277e",
             "shasum": ""
         },
         "require": {
@@ -23,7 +23,7 @@
             "patchwork/utf8": "1.1.*",
             "phpunit/phpunit": "3.7.*"
         },
-        "time": "2013-05-27 19:37:41",
+        "time": "2013-05-28 01:02:06",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -40,13 +40,15 @@
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
         "authors": [
             {
                 "name": "Taylor Otwell",
                 "email": "taylorotwell@gmail.com"
             }
-        ],
-        "description": "Various utilities and support functions."
+        ]
     },
     {
         "name": "nick4fake/htmlpurifier",
@@ -123,5 +125,48 @@
             }
         ],
         "description": "A composer package that assigns section names & titles to pages and simplifies creation of breadcrumb trails and is useful for other components that require page identifying information such as menus that highlight the current location."
+    },
+    {
+        "name": "regulus/tetra-text",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Regulus343/TetraText.git",
+            "reference": "c628edf7fe6dda1da8b061fea01d6a7005c52c87"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Regulus343/TetraText/zipball/c628edf7fe6dda1da8b061fea01d6a7005c52c87",
+            "reference": "c628edf7fe6dda1da8b061fea01d6a7005c52c87",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "4.0.x",
+            "nick4fake/htmlpurifier": "dev-master",
+            "php": ">=5.3.0"
+        },
+        "time": "2013-05-28 06:14:30",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "src/migrations"
+            ],
+            "psr-0": {
+                "Regulus\\TetraText": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Cody Jassman",
+                "email": "me@codyjassman.com"
+            }
+        ],
+        "description": "A small text/string formatting composer package that formats phone numbers, numeric values, money values and more."
     }
 ]

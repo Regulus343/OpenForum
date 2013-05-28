@@ -462,11 +462,19 @@ function setupWysiwygEditors() {
 function setupThreadForm() {
 	$('#btn-preview-thread').click(function(){
 		$('#preview').val(1);
+
+		if ($('#title').val() == $('#title').attr('placeholder')) $(this).val('');
+		if ($('#post-content').val() == $('#post-content').attr('placeholder')) $(this).val('');
+
 		$('#form-create-thread').submit();
 	});
 
 	$('#btn-create-thread').click(function(){
 		$('#preview').val(0);
+
+		if ($('#title').val() == $('#title').attr('placeholder')) $('#title').val('');
+		if ($('#post-content').val() == $('#post-content').attr('placeholder')) $('#post-content').val('');
+
 		$('#form-create-thread').submit();
 	});
 }

@@ -65,6 +65,27 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Authorization Method - User
+	|--------------------------------------------------------------------------
+	|
+	| The method for getting the active user.
+	|
+	*/
+	'authMethodActiveUser' => 'user()',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Authorization Method - User ID
+	|--------------------------------------------------------------------------
+	|
+	| The attribute for getting the active user ID which is used in conjunction
+	| with the user method above. By default, they get "user()->id" together.
+	|
+	*/
+	'authMethodActiveUserID' => 'id',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Authorization Method - Admin Check
 	|--------------------------------------------------------------------------
 	|
@@ -74,6 +95,85 @@ return array(
 	|
 	*/
 	'authMethodAdminCheck'  => false,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Authorization - Admin Role
+	|--------------------------------------------------------------------------
+	|
+	| The name of the admin role if admin check is enabled.
+	|
+	*/
+	'authMethodAdminRole' => 'admin',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Post Edit Limit (in seconds)
+	|--------------------------------------------------------------------------
+	|
+	| The post editing limit in seconds. By default, users may edit or
+	| delete their post for 180 seconds after initial post.
+	|
+	*/
+	'postEditLimit' => 180,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Post Minimum Length
+	|--------------------------------------------------------------------------
+	|
+	| The minimum length of characters for a post. Set to false if for no
+	| minimum. The default is 16 characters to prevent pointless "First!"
+	| posts and other short, useless posts.
+	|
+	*/
+	'postMinLength' => 16,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Post Wait Time (in seconds)
+	|--------------------------------------------------------------------------
+	|
+	| The minimum length of time in seconds that must pass between posts
+	| for a particular user. The default is 90 seconds. This can prevent a
+	| user from flooding your website.
+	|
+	*/
+	'postWaitTime' => 90,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Post Order
+	|--------------------------------------------------------------------------
+	|
+	| The order that the posts appear in, "asc" being oldest to newest and
+	| "desc" being newest to oldest.
+	|
+	*/
+	'postOrder' => 'desc',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Posts Per Page
+	|--------------------------------------------------------------------------
+	|
+	| The number of posts per page. Pagination buttons exist in the posts
+	| area to allow the user to page through all posts.
+	|
+	*/
+	'postsPerPage' => 30,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Post Auto-Approval
+	|--------------------------------------------------------------------------
+	|
+	| Determines whether the posts should be auto-approved and show up
+	| immediately or whether they are subject to approval by the administrator
+	| first. Auto-approval is turned on by default.
+	|
+	*/
+	'postAutoApproval' => true,
 
 	/*
 	|--------------------------------------------------------------------------

@@ -18,6 +18,7 @@ class CreateForumSectionsTable extends Migration {
 			$table->string('slug', 64);
 			$table->string('title');
 			$table->text('description');
+			$table->boolean('admin_create_thread');
 		});
 	}
 

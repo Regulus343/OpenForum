@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "dc10348c5134fe9c8adc01ddb6e0d703",
+    "hash": "df7ffd344dabc83bdb18072689ae8ba1",
     "packages": [
         {
             "name": "illuminate/support",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "9e74c0b4eccc3f3edbcec18b4b95994c0554b0f7"
+                "reference": "6ae40372bb0a2ca2a6403ed9107287937038277e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/9e74c0b4eccc3f3edbcec18b4b95994c0554b0f7",
-                "reference": "9e74c0b4eccc3f3edbcec18b4b95994c0554b0f7",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/6ae40372bb0a2ca2a6403ed9107287937038277e",
+                "reference": "6ae40372bb0a2ca2a6403ed9107287937038277e",
                 "shasum": ""
             },
             "require": {
@@ -43,14 +43,16 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Taylor Otwell",
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "description": "Various utilities and support functions.",
-            "time": "2013-05-27 19:37:41"
+            "time": "2013-05-28 01:02:06"
         },
         {
             "name": "nick4fake/htmlpurifier",
@@ -123,6 +125,47 @@
             ],
             "description": "A composer package that assigns section names & titles to pages and simplifies creation of breadcrumb trails and is useful for other components that require page identifying information such as menus that highlight the current location.",
             "time": "2013-05-28 03:32:17"
+        },
+        {
+            "name": "regulus/tetra-text",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Regulus343/TetraText.git",
+                "reference": "c628edf7fe6dda1da8b061fea01d6a7005c52c87"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Regulus343/TetraText/zipball/c628edf7fe6dda1da8b061fea01d6a7005c52c87",
+                "reference": "c628edf7fe6dda1da8b061fea01d6a7005c52c87",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "4.0.x",
+                "nick4fake/htmlpurifier": "dev-master",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/migrations"
+                ],
+                "psr-0": {
+                    "Regulus\\TetraText": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cody Jassman",
+                    "email": "me@codyjassman.com"
+                }
+            ],
+            "description": "A small text/string formatting composer package that formats phone numbers, numeric values, money values and more.",
+            "time": "2013-05-28 06:14:30"
         }
     ],
     "packages-dev": [
@@ -134,6 +177,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "regulus/solid-site": 20,
+        "regulus/tetra-text": 20,
         "nick4fake/htmlpurifier": 20
     },
     "platform": {

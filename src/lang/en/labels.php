@@ -8,6 +8,7 @@ return array(
 	'addPost'                   => 'Add Post',
 	'editPost'                  => 'Edit Post',
 
+	'addThreadTitlePlaceholder' => 'Add thread title...',
 	'addPostContentPlaceholder' => 'Add post content...',
 
 	'edit'                      => 'Edit',

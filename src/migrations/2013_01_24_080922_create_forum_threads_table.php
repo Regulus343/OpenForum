@@ -16,6 +16,7 @@ class CreateForumThreadsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('section_id');
+			$table->string('slug', 64);
 			$table->string('title');
 			$table->timestamps();
 		});

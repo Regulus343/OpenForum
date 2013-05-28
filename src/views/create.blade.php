@@ -16,7 +16,7 @@
 
 				{{-- Title --}}
 				<div class="field-row">
-					{{ Form::field('title') }}
+					{{ Form::field('title', null, array('placeholder' => Lang::get('open-forum::labels.addThreadTitlePlaceholder'))) }}
 				</div>
 				<div class="clear"></div>
 
