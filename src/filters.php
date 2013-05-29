@@ -12,6 +12,8 @@
 */
 
 use Illuminate\Support\Facades\Route;
+
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\View;
 
 use Regulus\SolidSite\SolidSite as Site;
@@ -32,5 +34,12 @@ Route::filter('forum', function()
 	});
 });
 
-Route::when('forum', 'forum');
-Route::when('forum/*', 'forum');
+Route::filter('ajax', function()
+{
+	if (!Request::ajax()) exit;
+});
+
+/* Set Filters */
+Route::when('forum',       'forum');
+Route::when('forum/*',      'forum');
+Route::when('forum/ajax/*', 'ajax');

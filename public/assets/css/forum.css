@@ -17,8 +17,8 @@ div#loading-forum-posts {
 	background: url('../img/loader.gif') no-repeat;
 }
 
-div#create-thread form input[type="text"], div#create-thread form textarea { width: 760px; }
-div#create-thread form textarea { height: 300px; }
+div#create-forum-thread form input[type="text"], div#create-forum-thread form textarea { width: 760px; }
+div#create-forum-thread form textarea { height: 300px; }
 
 ul#forum-posts { clear: both; margin: 0; list-style: none; }
 

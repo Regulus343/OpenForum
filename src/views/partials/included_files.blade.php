@@ -31,13 +31,19 @@
 	var forumLabels   = {{ json_encode(Lang::get('open-forum::labels')) }};
 	var forumMessages = {{ json_encode(Lang::get('open-forum::messages')) }};
 
-	@if (!is_null(Site::get('contentID')) && !is_null(Site::get('contentType')))
-		var contentID   = "{{ Site::get('contentID') }}";
-		var contentType = "{{ Site::get('contentType') }}";
+	@if (!is_null(Site::get('forumSectionSlug')) && !is_null(Site::get('forumSectionSlug')))
+		var forumSectionSlug = "{{ Site::get('forumSectionSlug') }}";
 	@else
-		if (contentID == undefined)   var contentID   = 0;
-		if (contentType == undefined) var contentType = "";
+		if (forumSectionSlug == undefined) var forumSectionSlug = "";
 	@endif
+
+	@if (!is_null(Site::get('forumThreadID')) && !is_null(Site::get('forumThreadID')))
+		var forumThreadID = "{{ Site::get('forumThreadID') }}";
+	@else
+		if (forumThreadID == undefined) var forumThreadID   = 0;
+	@endif
+
+	var postContent = '{{ !is_null(Input::get('content')) ? Input::get('content') : '' }}';
 </script>
 
 <script type="text/javascript" src="{{ Site::js('wysihtml5', 'regulus/open-forum') }}"></script>

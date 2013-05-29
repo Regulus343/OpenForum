@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
 
 use Aquanode\Formation\Formation as Form;
 use Regulus\TetraText\TetraText as Format;
@@ -42,6 +43,16 @@ class ForumController extends BaseController {
 			->with('section', $section)
 			->with('threads', $section->threads)
 			->with('messages', $messages);
+	}
+
+	public function ajaxSection($slug = 'general')
+	{
+		return "Section...";
+	}
+
+	public function ajaxThread($id = 0)
+	{
+		return "Thread...";
 	}
 
 	public function getCreateThread($slug = 'general')
@@ -123,7 +134,6 @@ class ForumController extends BaseController {
 			->with('section', $section)
 			->with('messages', $messages);
 	}
-
 
 	/*public function getEditCreateThread($id = 'general')
 	{

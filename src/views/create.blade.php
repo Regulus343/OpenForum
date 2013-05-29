@@ -8,7 +8,7 @@
 
 	@include('open-forum::partials.nav')
 
-	<div class="create-post" id="create-thread">
+	<div class="create-post" id="create-forum-thread">
 		{{ Form::open() }}
 
 			<fieldset>
@@ -22,7 +22,7 @@
 
 				{{-- Content --}}
 				<div class="field-row">
-					{{ Form::field('content', 'textarea', array('id-field' => 'post-content', 'class-field' => 'wysiwyg', 'placeholder' => Lang::get('open-forum::labels.addPostContentPlaceholder'))) }}
+					{{ Form::field('content', 'textarea', array('id-field' => 'new-thread-post-content', 'class-field' => 'wysiwyg', 'placeholder' => Lang::get('open-forum::labels.addPostContentPlaceholder'), 'value' => '')) }}
 				</div>
 				<div class="clear"></div>
 
@@ -33,8 +33,8 @@
 
 			{{-- Preview & Create Thread --}}
 			<div class="padded-vertical fieldset-indent">
-				{{ Form::submit(Lang::get('open-forum::labels.previewThread')) }}
-				{{ Form::submit(Lang::get('open-forum::labels.createThread')) }}
+				{{ Form::button(Lang::get('open-forum::labels.previewThread'), array('id' => 'btn-preview-thread')) }}
+				{{ Form::button(Lang::get('open-forum::labels.createThread'), array('id' => 'btn-create-thread')) }}
 			</div>
 
 		{{ Form::close() }}

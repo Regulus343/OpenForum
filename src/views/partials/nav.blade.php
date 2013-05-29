@@ -4,7 +4,7 @@
 		@if (Site::get('subSection') == "Forum: Create Thread")
 			<li>
 				<a href="{{ URL::to('forum/'.$section->slug) }}" class="button">
-					<div class="icon icon-arrow-left"></div>Return to {{ $section->title }}
+					<div class="icon icon-arrow-left"></div>Return to Threads in {{ $section->title }}
 				</a>
 			</li>
 		@else
