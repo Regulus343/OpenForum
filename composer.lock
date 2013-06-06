@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "v4.0.0"
+                "reference": "753991c49925df80aaf72e1dcd0afb5119ff9ade"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/v4.0.0",
-                "reference": "v4.0.0",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/753991c49925df80aaf72e1dcd0afb5119ff9ade",
+                "reference": "753991c49925df80aaf72e1dcd0afb5119ff9ade",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-05-28 01:02:06"
+            "time": "2013-06-05 21:43:34"
         },
         {
             "name": "nick4fake/htmlpurifier",

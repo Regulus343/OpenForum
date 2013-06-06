@@ -77,6 +77,16 @@ class ForumThread extends Eloquent {
 	}
 
 	/**
+	 * The latest post of the thread.
+	 *
+	 * @var    object
+	 */
+	public function getLatestPost()
+	{
+		return $this->posts->last();
+	}
+
+	/**
 	 * Creates or updates a thread.
 	 *
 	 * @param  integer  $id
@@ -244,10 +254,10 @@ class ForumThread extends Eloquent {
 
 			$latestPost = $thread->getLatestPost();
 
-			$threadArray['latest_post_id']           = $latestPost->id;
-			$threadArray['date_latest_post']         = date('F j, Y', strtotime($latestPost->created_at));
-			$threadArray['date_latest_post_user_id'] = $latestPost->user->id;
-			$threadArray['date_latest_post_user']    = $latestPost->user->getName();
+			$threadArray['latest_post_id']      = $latestPost->id;
+			$threadArray['date_latest_post']    = date('F j, Y', strtotime($latestPost->created_at));
+			$threadArray['latest_post_user_id'] = $latestPost->creator->id;
+			$threadArray['latest_post_user']    = $latestPost->creator->getName();
 
 			$threadArray['created_at'] = date('F j, Y \a\t g:i:sa', strtotime($threadArray['created_at']));
 			$threadArray['updated_at'] = date('F j, Y \a\t g:i:sa', strtotime($threadArray['updated_at']));
