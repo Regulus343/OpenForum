@@ -34,16 +34,26 @@
 	@if (!is_null(Site::get('forumSectionSlug')) && !is_null(Site::get('forumSectionSlug')))
 		var forumSectionSlug = "{{ Site::get('forumSectionSlug') }}";
 	@else
-		if (forumSectionSlug == undefined) var forumSectionSlug = "";
+		if (forumSectionSlug === undefined) var forumSectionSlug = "";
 	@endif
 
 	@if (!is_null(Site::get('forumThreadID')) && !is_null(Site::get('forumThreadID')))
 		var forumThreadID = "{{ Site::get('forumThreadID') }}";
 	@else
-		if (forumThreadID == undefined) var forumThreadID   = 0;
+		if (forumThreadID === undefined) var forumThreadID   = 0;
 	@endif
 
-	var postContent = '{{ !is_null(Input::get('content')) ? Input::get('content') : '' }}';
+	@if (isset($threads) && !empty($threads))
+		var threads = {{ $threads }};
+	@else
+		var threads;
+	@endif
+
+	@if (isset($posts) && !empty($posts))
+		var posts = {{ $posts }};
+	@else
+		var posts;
+	@endif
 </script>
 
 <script type="text/javascript" src="{{ Site::js('wysihtml5', 'regulus/open-forum') }}"></script>

@@ -17,9 +17,9 @@ class CreateForumThreadViews extends Migration {
 			$table->increments('id');
 			$table->integer('thread_id');
 			$table->integer('user_id');
-			$table->string('ip_address');
-			$table->string('user_agent');
-			$table->timestamp('created_at');
+
+			$table->string('ip_address', 36);
+			$table->timestamps();
 		});
 	}
 

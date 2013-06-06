@@ -18,7 +18,7 @@ div#loading-forum-posts {
 }
 
 div#create-forum-thread form input[type="text"], div#create-forum-thread form textarea { width: 760px; }
-div#create-forum-thread form textarea { height: 300px; }
+div#create-forum-thread form textarea { height: 260px; }
 
 ul#forum-posts { clear: both; margin: 0; list-style: none; }
 

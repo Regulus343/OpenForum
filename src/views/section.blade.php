@@ -4,54 +4,22 @@
 
 	@include('open-forum::partials.included_files')
 
-	<p>{{{ $section->description }}}</p>
-
-	@include('open-forum::partials.messages')
+	<div>{{ Format::paragraphs($section->description) }}</div>
 
 	@include('open-forum::partials.nav')
 
-	@if (!empty($forum_threads))
+	@include('open-forum::partials.messages')
 
-		<ul class="content" id="forum-threads">
-			@foreach ($forum_threads as $thread)
+	{{-- Ajax Loading Image --}}
+	<div class="loading" id="loading-forum-threads"></div>
 
-				<li class="full-link">
-					<a href="{{ URL::to('forum/'.$thread->id) }}" class="full-link"></a>
+	{{-- Threads List --}}
+	<ul id="forum-threads" class="content"></ul>
 
-					<h1>{{ $thread->title }}</h1>
+	{{-- JS Template for Threads --}}
+	@include(Config::get('open-forum::viewsLocation').'templates.threads')
 
-					<ul class="info">
-						<li>
-							<label>Creator:</label>
-							<span>
-								<a href="javascript:void(0);" class="view-user-profile" rel="u{{ $thread->user_id }}"><?=$thread->user?></a>
-							</span>
-						</li>
-						<li>
-							<label>Replies:</label>
-							<span>{{ ($thread->posts - 1) }}</span>
-						</li>
-						<li><label>Views:</label> <span>{{ $thread->views }}</span></li>
-						@if ($thread->latest_post_username)
-							<li>
-								<label>Latest Post:</label>
-								<a href="{{ URL::to('forum/'.$thread->latest_post_thread_id.'#post'.$thread->latest_post_id) }}">
-									{{ date('M j, Y \a\t g:ia', strtotime($thread->date_latest_post)) }}
-								</a> by
-								<a href="javascript:void(0);" class="view-user-profile" rel="{{ $thread->latest_post_user_id }}">
-									{{ $thread->latest_post_user }}
-								</a>
-							</li>
-						@endif
-					</ul>
-
-					<p>{{ Format::charLimit($thread->content, 360, '...', false, true) }}</p>
-				</li>
-
-			@endforeach
-		</ul>
-		<a href="#" class="back-to-top">back to top</a>
-
-	@endif
+	{{-- Bottom Pagination --}}
+	<ul class="forum-pagination hidden"></ul>
 
 @stop

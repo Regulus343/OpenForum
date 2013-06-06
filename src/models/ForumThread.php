@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 
 use Regulus\TetraText\TetraText as Format;
 
@@ -25,6 +27,16 @@ class ForumThread extends Eloquent {
 	protected $guarded = array('id');
 
 	/**
+	 * Gets the creator of the thread.
+	 *
+	 * @return object
+	 */
+	public function creator()
+	{
+		return $this->belongsTo(Config::get('auth.model'), 'user_id');
+	}
+
+	/**
 	 * The section that the thread belongs to.
 	 *
 	 * @var    object
@@ -41,7 +53,27 @@ class ForumThread extends Eloquent {
 	 */
 	public function posts()
 	{
-		return $this->hasMany('Regulus\OpenForum\ForumPost', 'thread_id');
+		return $this->hasMany('Regulus\OpenForum\ForumPost', 'thread_id')->orderBy('id');
+	}
+
+	/**
+	 * The views that belong to the thread.
+	 *
+	 * @var    object
+	 */
+	public function views()
+	{
+		return $this->hasMany('Regulus\OpenForum\ForumThreadView', 'thread_id')->orderBy('id', 'desc');
+	}
+
+	/**
+	 * The first post of the thread.
+	 *
+	 * @var    object
+	 */
+	public function getFirstPost()
+	{
+		return $this->posts->first();
 	}
 
 	/**
@@ -71,6 +103,7 @@ class ForumThread extends Eloquent {
  		$title     = ucfirst(trim(Input::get('title')));
 		$content   = Format::purifyHTML(Input::get('content'));
 		$editLimit = date('Y-m-d H:i:s', strtotime('-'.Config::get('open-forum::editLimit').' minutes'));
+		$admin     = OpenForum::admin();
 
 		//require minimum length
 		if (Config::get('open-forum::postMinLength') && strlen($content) < Config::get('open-forum::postMinLength')) {
@@ -78,15 +111,13 @@ class ForumThread extends Eloquent {
 			return $results;
 		}
 
-		$admin = OpenForum::admin();
-
 		if ($id) {
 			$results['action'] = "Update";
 
 			//if editing, ensure user has sufficient privileges to edit
 			if (!$admin) {
 				$postEditable = ForumPost::where('id', '=', $id)
-										->where('user_id', '=', OpenForum::userID())
+										->where('user_id', '=', $userID)
 										->where('created_at', '>=', $editLimit)
 										->count();
 				if (!$postEditable) {
@@ -118,7 +149,7 @@ class ForumThread extends Eloquent {
 			if (!$admin) {
 				$postWaitTime = Config::get('open-forum::postWaitTime');
 				if ($postWaitTime) {
-					$lastPost = static::where('user_id', '=', $userID)->orderBy('id', 'desc')->first();
+					$lastPost = ForumPost::where('user_id', '=', $userID)->orderBy('id', 'desc')->first();
 					if (!empty($lastPost)) {
 						$timeToWait = $postWaitTime - (time() - strtotime($lastPost->created_at));
 						if ($timeToWait > 0) {
@@ -128,27 +159,25 @@ class ForumThread extends Eloquent {
 					}
 				}
 			}
-
-			$post = new static;
-
-			$post->user_id = $userID;
-
-			$autoApproval = Config::get('open-forum::postAutoApproval');
-			if ($autoApproval || $admin) {
-				$post->approved    = true;
-				$post->approved_at = date('Y-m-d H:i:s');
-			}
 		}
 
 		if ($results['action'] == "Create") {
 			$thread = new ForumThread;
-			$thread->slug  = Format::uniqueSlug($title, 'forum_threads', 64);
-			$thread->title = $title;
+			$thread->user_id    = $userID;
+			$thread->section_id = $sectionID;
+			$thread->slug       = Format::uniqueSlug($title, 'forum_threads', 64);
+			$thread->title      = $title;
 			$thread->save();
 
+			//add initial view by creating user
+			$thread->recordView();
+
+			$post = new ForumPost;
+			$post->user_id    = $userID;
 			$post->thread_id  = $thread->id;
 			$post->ip_address = Request::getClientIp();
 		}
+
 		$post->content = $content;
 		$post->save();
 
@@ -162,7 +191,6 @@ class ForumThread extends Eloquent {
 		$results['resultType'] = "Success";
 		if ($results['action'] == "Create") {
 			$results['message'] = Lang::get('open-forum::messages.successThreadCreated');
-			if (!$autoApproval) $results['message'] .= ' '.Lang::get('open-forum::messages.notYetApproved');
 		} else {
 			$results['message'] = Lang::get('open-forum::messages.successThreadUpdated');
 		}
@@ -171,6 +199,117 @@ class ForumThread extends Eloquent {
 		//Activity::log(ucwords($data['content_type']).' - Comment Updated', '', $data['content_id']);
 
 		return $results;
+	}
+
+	/**
+	 * Formats the threads for Handlebars JS.
+	 *
+	 * @param  object   $threads
+	 * @return mixed
+	 */
+	public static function format($threads)
+	{
+		$threadsFormatted = array();
+
+		$admin = OpenForum::admin();
+
+		if (OpenForum::auth()) {
+			$user = OpenForum::user();
+			$activeUser = array(
+				'id'           => $user->id,
+				'name'         => $user->getName(),
+				'role'         => 'User',
+				'member_since' => date('F Y', strtotime($user->activated_at)),
+				'image'        => $user->getPicture(),
+			);
+		} else {
+			$activeUser = array(
+				'id'           => 0,
+				'name'         => '',
+				'role'         => '',
+				'member_since' => '',
+				'image'        => '',
+			);
+		}
+
+		foreach ($threads as $thread) {
+			$threadArray = $thread->toArray();
+
+			$threadArray['logged_in'] = OpenForum::auth();
+
+			$creator                  = $thread->creator;
+			$threadArray['user']      = $creator->getName();
+			$threadArray['replies']   = count($thread->posts) - 1;
+			$threadArray['views']     = count($thread->views);
+
+			$latestPost = $thread->getLatestPost();
+
+			$threadArray['latest_post_id']           = $latestPost->id;
+			$threadArray['date_latest_post']         = date('F j, Y', strtotime($latestPost->created_at));
+			$threadArray['date_latest_post_user_id'] = $latestPost->user->id;
+			$threadArray['date_latest_post_user']    = $latestPost->user->getName();
+
+			$threadArray['created_at'] = date('F j, Y \a\t g:i:sa', strtotime($threadArray['created_at']));
+			$threadArray['updated_at'] = date('F j, Y \a\t g:i:sa', strtotime($threadArray['updated_at']));
+			if (substr($threadArray['created_at'], 0, 13) != substr($threadArray['updated_at'], 0, 13)) {
+				$threadArray['updated'] = true;
+			} else {
+				$threadArray['updated'] = false;
+			}
+
+			$threadArray['content']   = Format::charLimit($thread->getFirstPost()->content, 360, '...', false, true);
+
+			$threadArray['edit_time'] = strtotime($thread->created_at) - strtotime('-'.Config::get('open-forum::commentEditLimit').' seconds');
+
+			if ($threadArray['edit_time'] < 0)
+				$threadArray['edit_time'] = 0;
+
+			if (Session::get('lastPost') != $threadArray['id'] || $admin)
+				$threadArray['edit_time'] = 0;
+
+			if ($threadArray['edit_time'] || $admin) {
+				$threadArray['edit'] = true;
+			} else {
+				$threadArray['edit'] = false;
+			}
+
+			$threadArray['deleted'] = (bool) $threadArray['deleted'];
+
+			if ($threadArray['user_id'] == $activeUser['id']) {
+				$threadArray['active_user_post'] = true;
+			} else {
+				$threadArray['active_user_post'] = false;
+			}
+
+			$threadsFormatted[] = $threadArray;
+		}
+		return $threadsFormatted;
+	}
+
+	/**
+	 * Record a view if user ID or IP address has not already viewed thread.
+	 *
+	 * @var    object
+	 */
+	public function recordView()
+	{
+		$userID    = OpenForum::userID();
+		$ipAddress = Request::getClientIp();
+
+		$exists = ForumThreadView::where('thread_id', '=', $this->id)->where(function($query)
+		{
+			$query
+				->where('user_id', '=', $userID)
+				->orWhere('ip_address', '=', $ipAddress);
+		})->count();
+
+		if (!$exists) {
+			$view = new ForumThreadView;
+			$view->thread_id  = $this->id;
+			$view->user_id    = $userID;
+			$view->ip_address = $ipAddress;
+			$view->save();
+		}
 	}
 
 }

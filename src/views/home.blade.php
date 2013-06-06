@@ -6,9 +6,9 @@
 
 	<p>The forum is divided into <strong>{{ count($sections) }}</strong> different sections. You may select a section below to see the threads it contains.</p>
 
-	@include('open-forum::partials.messages')
-
 	@include('open-forum::partials.nav')
+
+	@include('open-forum::partials.messages')
 
 	<ul class="content" id="forum-sections">
 		@foreach ($sections as $section)

@@ -15,10 +15,14 @@ class CreateForumThreadsTable extends Migration {
 		Schema::create('forum_threads', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('user_id');
 			$table->integer('section_id');
 			$table->string('slug', 64);
 			$table->string('title');
+
 			$table->timestamps();
+			$table->integer('deleted');
+			$table->datetime('deleted_at');
 		});
 	}
 

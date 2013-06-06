@@ -32,7 +32,7 @@ class ForumSection extends Eloquent {
 	 */
 	public function threads()
 	{
-		return $this->hasMany('Regulus\OpenForum\ForumThread', 'section_id');
+		return $this->hasMany('Regulus\OpenForum\ForumThread', 'section_id')->orderBy('updated_at', 'desc');
 	}
 
 	/**

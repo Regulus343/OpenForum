@@ -5,7 +5,7 @@
 		A light, effective discussion forum composer package that is easy to configure and implement.
 
 		created by Cody Jassman
-		last updated on May 21, 2013
+		last updated on June 5, 2013
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;

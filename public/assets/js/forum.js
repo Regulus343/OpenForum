@@ -208,34 +208,47 @@ function eventAttendanceStatus(id) {
 	);
 }*/
 
-var threads;
-var posts;
+if (threads === undefined) var threads;
+if (posts === undefined)   var posts;
+
 var forumMessage;
-var forumMessageTimeLimit = 6000;
 var forumMessageTimeout;
-var forumScroll = 0;
-var forumScrollTime = 500;
-var postSlideTime = 250;
+var forumMessageTimeLimit = 6000;
+var forumScroll           = 0;
+var forumScrollTime       = 500;
+var postSlideTime         = 250;
 
 function scrollToElement(element) {
 	$('html, body').animate({ scrollTop: $(element).offset().top - 7 }, forumScrollTime);
 }
 
 function loadThreads() {
-	$('#loading-forum-threads').css('height', $('#forum-threads').height()).fadeIn('fast');
+	if (threads != undefined && threads.length > 0) {
+		var source   = $('#forum-threads-template').html();
+		var template = Handlebars.compile(source);
+		var context  = { threads: threads };
+		var html     = template(context);
+
+		$('#loading-forum-threads').hide();
+		$('#forum-threads').html(html).slideDown('fast');
+	} else {
+		$('#loading-forum-threads').fadeOut('fast');
+	}
+}
+
+function searchThreads() {
+	var data = getFormDataForPost('#form-search');
+
 	$('#forum-threads').hide();
-
-	clearTimeout(editPostCountdown);
-
-	var page = $('#forum-threads-page').val();
+	$('#loading-forum-threads').css('height', $('#forum-threads').height()).fadeIn('fast');
 
 	$.ajax({
-		url: baseURL + 'forum/ajax/section',
+		url: baseURL + 'forum/ajax/search',
 		type: 'post',
-		data: { 'slug': forumSectionSlug, 'page': page },
+		data: data,
 		dataType: 'json',
 		success: function(result){
-			showForumMessage('#message-forum-threads', 'info', result.message, false);
+			showForumMessage('#message-forum-threads', 'info', result.message, result.messageSub, false);
 
 			if (result.totalPages > 0) {
 
@@ -257,9 +270,9 @@ function loadThreads() {
 				hideForumMessage('#add-post', 'success');
 
 				$('#forum-threads').html(html).removeClass('hidden').show();
-				$('#loading-threads').hide();
+				$('#loading-forum-threads').hide();
 			} else {
-				$('#loading-threads').fadeOut('fast');
+				$('#loading-forum-threads').fadeOut('fast');
 			}
 
 			/* Load WYSIHTML5 */
@@ -275,9 +288,9 @@ function loadThreads() {
 			setupEditCountdown();
 		},
 		error: function(){
-			showForumMessage('#message-threads', 'info', forumMessages.noPosts, true);
+			showForumMessage('#message-threads', 'info', forumMessages.noPosts, false, true);
 			$('#loading-forum-threads').fadeOut('fast');
-			console.log('Load Threads Error');
+			console.log('Search Threads Failed');
 		}
 	});
 }
@@ -296,7 +309,7 @@ function loadPosts() {
 		data: { 'content_id': contentID, 'content_type': contentType, 'page': page },
 		dataType: 'json',
 		success: function(result){
-			showForumMessage('#message-forum-posts', 'info', result.message, false);
+			showForumMessage('#message-forum-posts', 'info', result.message, result.messageSub, false);
 
 			if (result.totalPages > 0) {
 
@@ -339,13 +352,13 @@ function loadPosts() {
 			if (postScroll > 0) {
 				setTimeout("scrollToElement('#forum-post"+postScroll+"');", 250);
 
-				setTimeout("showForumMessage('#forum-post"+postScroll+" .top-messages', 'success', '"+postMessage+"', true);", 1000);
+				setTimeout("showForumMessage('#forum-post"+postScroll+" .top-messages', 'success', '"+postMessage+"', false, true);", 1000);
 				postScroll  = false;
 				postMessage = "";
 			}
 		},
 		error: function(){
-			showForumMessage('#message-posts', 'info', forumMessages.noPosts, true);
+			showForumMessage('#message-posts', 'info', forumMessages.noPosts, false, true);
 			$('#loading-posts').fadeOut('fast');
 			console.log('Load Posts Error');
 		}
@@ -433,16 +446,22 @@ function setupForumPagination(type) {
 	}
 }
 
-function showForumMessage(elementID, type, message, timeLimit) {
-	$(elementID+' .message.'+type).html(message).hide().removeClass('hidden').fadeIn('fast');
+function showForumMessage(elementID, type, message, messageSub, timeLimit) {
+	$(elementID+' .message.'+type+' .main').html(message);
+	if (messageSub) {
+		$(elementID+' .message.'+type+' .sub').html(messageSub).show();
+	} else {
+		$(elementID+' .message.'+type+' .sub').html('').hide();
+	}
+	$(elementID+' .message.'+type).hide().removeClass('hidden').fadeIn('fast');
 
 	if (timeLimit) {
-		forumMessageTimeout = setTimeout("$('"+elementID+" .message."+type+"').html('"+message+"').fadeOut();", forumMessageTimeLimit);
+		forumMessageTimeout = setTimeout("$('"+elementID+" .message."+type+"').fadeOut();", forumMessageTimeLimit);
 	}
 }
 
-function hideForumMessage(elementID, type, message, timeLimit) {
-	$(elementID+' .message.'+type).html(message).hide().fadeOut();
+function hideForumMessage(elementID, type) {
+	$(elementID+' .message.'+type).fadeOut();
 }
 
 function setupWysiwygEditors() {
@@ -465,43 +484,46 @@ function setupWysiwygEditors() {
 
 function setupThreadForm() {
 
-	//set new thread content text field to content text
-	if (postContent != "") {
-		$('#new-thread-post-content').val(postContent);
-		$('#create-forum-thread').find('iframe').contents().find('.wysihtml5-editor').html(postContent);
-	}
-
 	$('#btn-preview-thread').click(function(e){
 		e.preventDefault();
 		$('#preview').val(1);
 
-		if ($('#title').val() == $('#title').attr('placeholder')) $(this).val('');
-		if ($('#post-content').val() == $('#post-content').attr('placeholder')) $(this).val('');
-
-		$('#form-create-thread').submit();
+		createThread();
 	});
 
 	$('#btn-create-thread').click(function(e){
 		e.preventDefault();
 		$('#preview').val(0);
 
-		if ($('#title').val() == $('#title').attr('placeholder')) $('#title').val('');
-		if ($('#post-content').val() == $('#post-content').attr('placeholder')) $('#post-content').val('');
+		createThread();
+	});
+}
 
-		/*$.ajax({
-			url: baseURL + 'forum/ajax/thread',
-			type: 'post',
-			data: { 'content_id': contentID, 'content_type': contentType, 'page': page },
-			dataType: 'json',
-			success: function(result){
-				showForumMessage('#message-forum-posts', 'info', result.message, false);
-			},
-			error function(result){
-				console.log('Create Thread Failed');
+function createThread() {
+	if ($('#title').val() == $('#title').attr('placeholder'))
+		$('#title').val('');
+
+	if ($('#post-content').val() == $('#post-content').attr('placeholder'))
+		$('#post-content').val('');
+
+	var data = $('#create-forum-thread form').serialize();
+	$.ajax({
+		url: baseURL + 'forum/thread/create/' + forumSectionSlug,
+		type: 'post',
+		data: data,
+		dataType: 'json',
+		success: function(result){
+			if (result.resultType == "Success") {
+				document.location.href = baseURL + result.redirectURI;
+			} else if (result.resultType == "Success: Preview") {
+				showForumMessage('#message-forum-thread', 'info', result.message, result.messageSub, true);
+			} else {
+				showForumMessage('#message-forum-thread', 'error', result.message, result.messageSub, true);
 			}
-		});*/
-
-		$('#create-forum-thread form').submit();
+		},
+		error: function(result){
+			console.log('Create Thread Failed');
+		}
 	});
 }
 
@@ -582,7 +604,7 @@ function setupPostActions() {
 				dataType: 'json',
 				success: function(result){
 					if (result.resultType == "Success") {
-						showForumMessage('#forum-post'+postID+' .top-messages', 'success', result.message, true);
+						showForumMessage('#forum-post'+postID+' .top-messages', 'success', result.message, result.messageSub, true);
 						setTimeout("$('#forum-post"+postID+"').slideUp("+forumSlideTime+");", 1500);
 						setTimeout("$('#forum-post"+postID+"').remove();", 3000);
 						$('#forum-posts li').each(function(){
@@ -591,11 +613,11 @@ function setupPostActions() {
 							}
 						});
 					} else {
-						showForumMessage('#forum-post'+postID+' .top-messages', 'error', result.message, true);
+						showForumMessage('#forum-post'+postID+' .top-messages', 'error', result.message, result.messageSub, true);
 					}
 				},
 				error: function(result){
-					showForumMessage('#forum-post'+postID+' .top-messages', 'error', result.message, true);
+					showForumMessage('#forum-post'+postID+' .top-messages', 'error', result.message, result.messageSub, true);
 					console.log('Delete Post Failed');
 				}
 			});
@@ -636,13 +658,13 @@ function setupPostActions() {
 								.addClass('icon-plus-sign');
 							$('#forum-post'+postID+' .button-approve').text(forumLabels.approve);
 						}
-						showForumMessage('#forum-post'+postID+' .top-messages', 'success', result.message, true);
+						showForumMessage('#forum-post'+postID+' .top-messages', 'success', result.message, result.messageSub, true);
 					} else {
-						showForumMessage('#forum-post'+postID+' .top-messages', 'error', result.message, true);
+						showForumMessage('#forum-post'+postID+' .top-messages', 'error', result.message, result.messageSub, true);
 					}
 				},
 				error: function(result){
-					showForumMessage('#forum-post'+postID+' .top-messages', 'error', result.message, true);
+					showForumMessage('#forum-post'+postID+' .top-messages', 'error', result.message, result.messageSub, true);
 					console.log('Approve Post Failed');
 				}
 			});

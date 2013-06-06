@@ -1,18 +1,18 @@
 [
     {
         "name": "illuminate/support",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "4.0.x-dev",
+        "version_normalized": "4.0.9999999.9999999-dev",
         "target-dir": "Illuminate/Support",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/support.git",
-            "reference": "6ae40372bb0a2ca2a6403ed9107287937038277e"
+            "reference": "v4.0.0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/support/zipball/6ae40372bb0a2ca2a6403ed9107287937038277e",
-            "reference": "6ae40372bb0a2ca2a6403ed9107287937038277e",
+            "url": "https://api.github.com/repos/illuminate/support/zipball/v4.0.0",
+            "reference": "v4.0.0",
             "shasum": ""
         },
         "require": {
@@ -51,6 +51,48 @@
         ]
     },
     {
+        "name": "regulus/solid-site",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Regulus343/SolidSite.git",
+            "reference": "a1ae80906e9bc64ccc808543aaf7af5029aa79bc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Regulus343/SolidSite/zipball/a1ae80906e9bc64ccc808543aaf7af5029aa79bc",
+            "reference": "a1ae80906e9bc64ccc808543aaf7af5029aa79bc",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "4.0.x",
+            "php": ">=5.3.0"
+        },
+        "time": "2013-05-31 04:50:50",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "src/migrations"
+            ],
+            "psr-0": {
+                "Regulus\\SolidSite": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Cody Jassman",
+                "email": "me@codyjassman.com"
+            }
+        ],
+        "description": "A composer package that assigns section names & titles to pages and simplifies creation of breadcrumb trails and is useful for other components that require page identifying information such as menus that highlight the current location."
+    },
+    {
         "name": "nick4fake/htmlpurifier",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -83,48 +125,6 @@
         ],
         "description": "HTML Purifier is a standards-compliant HTML filter library written in PHP.",
         "homepage": "http://htmlpurifier.org/"
-    },
-    {
-        "name": "regulus/solid-site",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Regulus343/SolidSite.git",
-            "reference": "c25565a9632c90611a84e28cdeb02d97ad304624"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Regulus343/SolidSite/zipball/c25565a9632c90611a84e28cdeb02d97ad304624",
-            "reference": "c25565a9632c90611a84e28cdeb02d97ad304624",
-            "shasum": ""
-        },
-        "require": {
-            "illuminate/support": "4.0.x",
-            "php": ">=5.3.0"
-        },
-        "time": "2013-05-28 03:32:17",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "classmap": [
-                "src/migrations"
-            ],
-            "psr-0": {
-                "Regulus\\SolidSite": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Cody Jassman",
-                "email": "me@codyjassman.com"
-            }
-        ],
-        "description": "A composer package that assigns section names & titles to pages and simplifies creation of breadcrumb trails and is useful for other components that require page identifying information such as menus that highlight the current location."
     },
     {
         "name": "regulus/tetra-text",

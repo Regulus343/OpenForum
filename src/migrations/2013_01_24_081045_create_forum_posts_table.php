@@ -22,6 +22,7 @@ class CreateForumPostsTable extends Migration {
 			$table->text('content');
 			$table->integer('root');
 
+			$table->string('ip_address', 36);
 			$table->timestamps();
 			$table->integer('deleted');
 			$table->datetime('deleted_at');

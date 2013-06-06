@@ -37,11 +37,13 @@ class ForumController extends BaseController {
 
 		Site::addTrailItem($section->title, 'forum/'.$slug);
 
-		$messages['info'] = Format::pluralize('Displaying <strong>[number]</strong> [word] in <strong>'.$section->title.'</strong>.', count($section->threads), 'thread');
+		$threads = $section->threads;
+
+		$messages['info'] = Format::pluralize('Displaying <strong>[number]</strong> [word] in <strong>'.$section->title.'</strong>.', count($threads), 'thread');
 
 		return View::make(Config::get('open-forum::viewsLocation').'section')
 			->with('section', $section)
-			->with('threads', $section->threads)
+			->with('threads', json_encode(ForumThread::format($threads)))
 			->with('messages', $messages);
 	}
 
@@ -68,16 +70,85 @@ class ForumController extends BaseController {
 
 		Site::set('subSection', 'Forum: Create Thread');
 		Site::set('forumSection', $section->title);
+		Site::set('forumSectionSlug', $section->slug);
 
 		Site::addTrailItem($section->title, 'forum/'.$section->slug);
 
 		Site::set('title', 'Forum: Create Thread in '.$section->title.' Section');
 		Site::addTrailItem('Create Thread', 'forum/thread/create/'.$section->slug);
 
+		$defaults = array('section_id' => $section->id);
+		Form::setDefaults($defaults);
+
 		return View::make(Config::get('open-forum::viewsLocation').'create')->with('section', $section);
 	}
 
 	public function postCreateThread($slug = 'general')
+	{
+		//\Illuminate\Support\Facades\DB::table('forum_threads')->delete();
+		$results = array(
+			'resultType' => 'Error',
+			'message'    => Lang::get('open-forum::messages.errorGeneral'),
+		);
+
+		$section = ForumSection::bySlug($slug);
+		if (empty($section))
+			return Redirect::to('forum/'.$section->slug)
+				->with('messageError', Lang::get('open-forum::messages.errorSectionNotExistent'));
+
+		if (!OpenForum::auth())
+			return Redirect::to('forum/'.$section->slug)
+				->with('messageError', Lang::get('open-forum::messages.errorLogIn', array('linkLogIn' => '<a href="'.URL::to('login').'">log in</a>', 'linkCreateAccount' => '<a href="'.URL::to('signup').'">create an account</a>')));
+
+		$rules = array(
+			'title'      => array('required', 'min:3', 'unique:forum_threads'),
+			'content'    => array('required', 'min:24'),
+			'section_id' => array('required'),
+		);
+
+		$preview = (bool) Input::get('preview');
+
+		//if user is previewing post, do not validate form
+		if ($preview) {
+			$rules['prevent_validation'] = array('required');
+		}
+		Form::setValidationRules($rules);
+
+		$messages = array();
+		if (Form::validated()) {
+			$results = ForumThread::createUpdate();
+			if ($results['threadID']) {
+				$results['resultType']  = "Success";
+				$results['message']     = Lang::get('open-forum::messages.successThreadCreated');
+				$results['redirectURI'] = "forum/thread/".$results['threadSlug'];
+			}
+		} else {
+			if ($preview) {
+				$results['resultType'] = "Success: Preview";
+				$results['message']    = Lang::get('open-forum::messages.successPreviewingThread');
+				$results['messageSub'] = Lang::get('open-forum::messages.successPreviewingThreadSub', array('createThread' => Lang::get('open-forum::labels.createThread')));
+
+				$post = "";
+				$results['posts']      = array($post);
+			} else {
+				var_dump('test');
+				if (Form::error('title'))
+					$results['messageSub'] = Form::errorMessage('title');
+
+				if (Form::error('content'))
+					$results['messageSub'] = Form::errorMessage('content');
+			}
+		}
+
+		return json_encode($results);
+	}
+
+	public function getThread($slug = '')
+	{
+		var_dump('x'); exit;
+	}
+
+	/*public function postCreateThread($slug = 'general')
 	{
 		$section = ForumSection::bySlug($slug);
 
@@ -133,7 +204,7 @@ class ForumController extends BaseController {
 		return View::make(Config::get('open-forum::viewsLocation').'create')
 			->with('section', $section)
 			->with('messages', $messages);
-	}
+	}*/
 
 	/*public function getEditCreateThread($id = 'general')
 	{
