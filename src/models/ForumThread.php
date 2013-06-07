@@ -67,6 +67,16 @@ class ForumThread extends Eloquent {
 	}
 
 	/**
+	 * Get a thread by its URI slug.
+	 *
+	 * @return object
+	 */
+	public static function bySlug($slug = '')
+	{
+		return static::where('slug', '=', $slug)->first();
+	}
+
+	/**
 	 * The first post of the thread.
 	 *
 	 * @var    object
@@ -84,6 +94,42 @@ class ForumThread extends Eloquent {
 	public function getLatestPost()
 	{
 		return $this->posts->last();
+	}
+
+	/**
+	 * Select a number of posts by page number.
+	 *
+	 * @param  integer  $page
+	 * @return mixed
+	 */
+	public function paginatePosts($page = 1)
+	{
+		if (!$page || !is_int($page)) $page = 1;
+
+		if (!ForumPost::$order) {
+			if (!is_null(Session::get('postOrder'))) {
+				ForumPost::$order = Session::get('postOrder');
+			} else {
+				ForumPost::$order = Config::get('open-forum::postOrder');
+			}
+		}
+
+		$posts = ForumPost::where('thread_id', '=', $this->id);
+
+		$admin = OpenForum::admin();
+		if (!$admin) {
+			$posts->where('deleted', '=', false);
+		}
+
+		$posts->orderBy('id', ForumPost::$order);
+
+		$postsPerPage = Config::get('open-forum::postsPerPage');
+		$postsToSkip  = ($page - 1) * $postsPerPage;
+		$posts = $posts->skip($postsToSkip)->take($postsPerPage);
+
+		$posts = $posts->get();
+
+		return $posts;
 	}
 
 	/**
@@ -268,28 +314,7 @@ class ForumThread extends Eloquent {
 			}
 
 			$threadArray['content']   = Format::charLimit($thread->getFirstPost()->content, 360, '...', false, true);
-
-			$threadArray['edit_time'] = strtotime($thread->created_at) - strtotime('-'.Config::get('open-forum::commentEditLimit').' seconds');
-
-			if ($threadArray['edit_time'] < 0)
-				$threadArray['edit_time'] = 0;
-
-			if (Session::get('lastPost') != $threadArray['id'] || $admin)
-				$threadArray['edit_time'] = 0;
-
-			if ($threadArray['edit_time'] || $admin) {
-				$threadArray['edit'] = true;
-			} else {
-				$threadArray['edit'] = false;
-			}
-
-			$threadArray['deleted'] = (bool) $threadArray['deleted'];
-
-			if ($threadArray['user_id'] == $activeUser['id']) {
-				$threadArray['active_user_post'] = true;
-			} else {
-				$threadArray['active_user_post'] = false;
-			}
+			$threadArray['deleted']   = (bool) $threadArray['deleted'];
 
 			$threadsFormatted[] = $threadArray;
 		}
@@ -306,7 +331,7 @@ class ForumThread extends Eloquent {
 		$userID    = OpenForum::userID();
 		$ipAddress = Request::getClientIp();
 
-		$exists = ForumThreadView::where('thread_id', '=', $this->id)->where(function($query)
+		$exists = ForumThreadView::where('thread_id', '=', $this->id)->where(function($query) use ($userID, $ipAddress)
 		{
 			$query
 				->where('user_id', '=', $userID)
@@ -319,7 +344,9 @@ class ForumThread extends Eloquent {
 			$view->user_id    = $userID;
 			$view->ip_address = $ipAddress;
 			$view->save();
+			return true;
 		}
+		return false;
 	}
 
 }

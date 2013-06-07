@@ -14,4 +14,5 @@ return array(
     'Regulus\\OpenForum\\ForumPost' => $baseDir . '/src/models/ForumPost.php',
     'Regulus\\OpenForum\\ForumSection' => $baseDir . '/src/models/ForumSection.php',
     'Regulus\\OpenForum\\ForumThread' => $baseDir . '/src/models/ForumThread.php',
+    'Regulus\\OpenForum\\ForumThreadView' => $baseDir . '/src/models/ForumThreadView.php',
 );

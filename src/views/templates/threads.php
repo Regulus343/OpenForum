@@ -5,15 +5,22 @@
 			<a href="<?=URL::to('forum')?>/thread/{{slug}}" class="full-link"></a>
 
 			<ul class="info">
-				<li><label>Creator:</label> <span><a href="" class="profile-popup" rel="{{user_id}}">{{user}}</a></span></li>
-				<li><label>Replies:</label> <span>{{replies}}</span></li>
-				<li><label>Views:</label> <span>{{views}}</span></li>
 				<li>
+					<label>Creator:</label>
+					<span><a href="" class="profile-popup" rel="{{user_id}}">{{user}}</a></span>
+				</li><li>
+					<label>Replies:</label>
+					<span>{{replies}}</span>
+				</li><li>
+					<label>Views:</label>
+					<span>{{views}}</span>
+				</li><li>
 					<label>Latest Post:</label>
-					<a href="<?=URL::to('forum')?>/thread/{{slug}}#post{{latest_post_id}}">
-						{{date_latest_post}}
-					</a> by
-					<a href="" class="profile-popup" rel="{{latest_post_user_id}}">{{latest_post_user}}</a>
+					<span>
+						<a href="<?=URL::to('forum')?>/thread/{{slug}}#post{{latest_post_id}}">
+							{{date_latest_post}}
+						</a> by <a href="" class="profile-popup" rel="{{latest_post_user_id}}">{{latest_post_user}}</a>
+					</span>
 				</li>
 			</ul>
 

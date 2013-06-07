@@ -161,7 +161,18 @@ return array(
 	| area to allow the user to page through all posts.
 	|
 	*/
-	'postsPerPage' => 30,
+	'postsPerPage' => 20,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Threads Per Page
+	|--------------------------------------------------------------------------
+	|
+	| The number of threads per page. Pagination buttons exist in the threads
+	| area to allow the user to page through all threads.
+	|
+	*/
+	'threadsPerPage' => 30,
 
 	/*
 	|--------------------------------------------------------------------------

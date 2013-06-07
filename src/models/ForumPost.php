@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
+
+use Regulus\TetraText\TetraText as Format;
 
 class ForumPost extends Eloquent {
 
@@ -22,6 +25,14 @@ class ForumPost extends Eloquent {
 	 * @var    array
 	 */
 	protected $guarded = array('id');
+
+	/**
+	 * The default order of the posts, "asc" being oldest to newest and
+	 * "desc" being newest to oldest.
+	 *
+	 * @var string
+	 */
+	public static $order = false;
 
 	/**
 	 * Gets the creator of the post.
@@ -215,9 +226,9 @@ class ForumPost extends Eloquent {
 				$postArray['updated'] = false;
 			}
 
-			$postArray['content']   = Format::entities($post->content);
+			$postArray['deleted'] = (bool) $postArray['deleted'];
 
-			$postArray['edit_time'] = strtotime($post->created_at) - strtotime('-'.Config::get('open-forum::commentEditLimit').' seconds');
+			$postArray['edit_time'] = strtotime($post->created_at) - strtotime('-'.Config::get('open-forum::postEditLimit').' seconds');
 
 			if ($postArray['edit_time'] < 0)
 				$postArray['edit_time'] = 0;
@@ -225,19 +236,20 @@ class ForumPost extends Eloquent {
 			if (Session::get('lastPost') != $postArray['id'] || $admin)
 				$postArray['edit_time'] = 0;
 
+			if ((int) $postArray['user_id'] == (int) $activeUser['id']) {
+				$postArray['active_user_post'] = false;
+			} else {
+				$postArray['active_user_post'] = false;
+				$postArray['edit_time']        = 0;
+			}
+
 			if ($postArray['edit_time'] || $admin) {
 				$postArray['edit'] = true;
 			} else {
 				$postArray['edit'] = false;
 			}
 
-			$postArray['deleted'] = (bool) $postArray['deleted'];
-
-			if ($postArray['user_id'] == $activeUser['id']) {
-				$postArray['active_user_post'] = true;
-			} else {
-				$postArray['active_user_post'] = false;
-			}
+			$postArray['edit_countdown'] = $postArray['edit_time'] > 0 ? Lang::get('open-forum::messages.editCountdown', array('seconds' => $postArray['edit_time'])) : '';
 
 			$postArray['active_user_name']  = $activeUser['name'];
 			$postArray['active_user_role']  = $activeUser['role'];

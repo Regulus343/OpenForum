@@ -143,9 +143,37 @@ class ForumController extends BaseController {
 		return json_encode($results);
 	}
 
-	public function getThread($slug = '')
+	public function getThread($slug = '', $page = 1)
 	{
-		var_dump('x'); exit;
+		$thread = ForumThread::bySlug($slug);
+		if (empty($thread))
+			return Redirect::to('forum')->with('messageError', Lang::get('open-forum::messages.errorThreadNotExistent'));
+
+		Site::set('subSection', 'Forum: '.$thread->section->title);
+		Site::set('title', $thread->title);
+
+		Site::addTrailItem($thread->section->title, 'forum/'.$thread->section->slug);
+		Site::addTrailItem($thread->title, 'forum/thread/'.$slug);
+
+		if (!$page || is_int($page)) $page = 1;
+
+		$posts        = $thread->paginatePosts($page);
+		$postsPerPage = Config::get('open-forum::postsPerPage');
+		$totalPosts   = count($thread->posts);
+
+		$postPlural = Lang::get('open-forum::label.post');
+		if ($totalPosts > 1) $postPlural = Str::plural($postPlural);
+
+		$start = $page * $postsPerPage - $postsPerPage + 1;
+		$end   = $start + $postsPerPage - 1;
+		if ($end > $totalPosts) $end = $totalPosts;
+
+		$messages['info'] = Lang::get('open-forum::messages.numberComments', array('start' => $start, 'end' => $end, 'total' => $totalPosts, 'itemPlural' => $postPlural));
+
+		return View::make(Config::get('open-forum::viewsLocation').'thread')
+			->with('thread', $thread)
+			->with('posts', json_encode(ForumPost::format($posts)))
+			->with('messages', $messages);
 	}
 
 	/*public function postCreateThread($slug = 'general')

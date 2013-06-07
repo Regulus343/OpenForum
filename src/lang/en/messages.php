@@ -44,8 +44,8 @@ return array(
 	'confirmUnapprove'           => 'Are you sure you want to unapprove this post?',
 	'confirmUnapproveTitle'      => 'Unpprove Post',
 
-	'noPosts'                    => 'There are currently no posts.',
-	'numberPosts'                => 'Displaying <strong>:start</strong> &ndash; <strong>:end</strong> of <strong>:total</strong> :postPlural.',
+	'noThreads'                  => 'There are currently no threads in this section.',
+	'numberItems'                => 'Displaying <strong>:start</strong> &ndash; <strong>:end</strong> of <strong>:total</strong> :itemPlural.',
 	'post'                       => 'post',
 	'posting'                    => 'Posting... Please wait a moment.',
 
