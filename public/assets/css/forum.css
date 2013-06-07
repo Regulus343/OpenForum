@@ -233,6 +233,7 @@ ul#forum-posts li ul.actions li {
 	display: inline-block;
 	margin: 0 !important;
 	padding: 0 0 0 2px;
+	min-height: 0;
 	box-shadow: none;
 }
 ul#forum-posts li ul.actions a.button {
