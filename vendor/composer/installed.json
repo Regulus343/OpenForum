@@ -76,18 +76,60 @@
         "homepage": "http://htmlpurifier.org/"
     },
     {
+        "name": "aquanode/formation",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Aquanode/Formation.git",
+            "reference": "b19a366e45534f90b3fe3008892a614ca3b1ad92"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Aquanode/Formation/zipball/b19a366e45534f90b3fe3008892a614ca3b1ad92",
+            "reference": "b19a366e45534f90b3fe3008892a614ca3b1ad92",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "4.0.x",
+            "php": ">=5.3.0"
+        },
+        "time": "2013-05-19 08:15:04",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "src/migrations"
+            ],
+            "psr-0": {
+                "Aquanode\\Formation": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Cody Jassman",
+                "email": "cody@aquanode.com"
+            }
+        ],
+        "description": "A powerful form creation composer package for Laravel 4 built on top of Laravel 3's Form class."
+    },
+    {
         "name": "regulus/tetra-text",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/Regulus343/TetraText.git",
-            "reference": "c628edf7fe6dda1da8b061fea01d6a7005c52c87"
+            "reference": "7a7cb864a4ec0c13dc416fa81be7333661161a24"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Regulus343/TetraText/zipball/c628edf7fe6dda1da8b061fea01d6a7005c52c87",
-            "reference": "c628edf7fe6dda1da8b061fea01d6a7005c52c87",
+            "url": "https://api.github.com/repos/Regulus343/TetraText/zipball/7a7cb864a4ec0c13dc416fa81be7333661161a24",
+            "reference": "7a7cb864a4ec0c13dc416fa81be7333661161a24",
             "shasum": ""
         },
         "require": {
@@ -95,7 +137,7 @@
             "nick4fake/htmlpurifier": "dev-master",
             "php": ">=5.3.0"
         },
-        "time": "2013-05-28 06:14:30",
+        "time": "2013-06-07 01:39:17",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -126,12 +168,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/support.git",
-            "reference": "753991c49925df80aaf72e1dcd0afb5119ff9ade"
+            "reference": "4733cb18bf1986c7644fd058d2f2ccc4419d7f80"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/support/zipball/753991c49925df80aaf72e1dcd0afb5119ff9ade",
-            "reference": "753991c49925df80aaf72e1dcd0afb5119ff9ade",
+            "url": "https://api.github.com/repos/illuminate/support/zipball/4733cb18bf1986c7644fd058d2f2ccc4419d7f80",
+            "reference": "4733cb18bf1986c7644fd058d2f2ccc4419d7f80",
             "shasum": ""
         },
         "require": {
@@ -142,7 +184,7 @@
             "patchwork/utf8": "1.1.*",
             "phpunit/phpunit": "3.7.*"
         },
-        "time": "2013-06-05 21:43:34",
+        "time": "2013-06-06 01:52:19",
         "type": "library",
         "extra": {
             "branch-alias": {

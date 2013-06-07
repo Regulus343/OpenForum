@@ -161,6 +161,10 @@ class ForumThread extends Eloquent {
 		$editLimit = date('Y-m-d H:i:s', strtotime('-'.Config::get('open-forum::editLimit').' minutes'));
 		$admin     = OpenForum::admin();
 
+		//if title is CAPS LOCKED, only capitalize first letters of each words
+		if (strlen($title) > 5 && $title == strtoupper($title))
+			$title = ucwords(strtolower($title));
+
 		//require minimum length
 		if (Config::get('open-forum::postMinLength') && strlen($content) < Config::get('open-forum::postMinLength')) {
 			$results['message'] = Lang::get('open-forum::messages.errorMinLength', array('number' => Config::get('open-forum::postMinLength')));
@@ -230,6 +234,7 @@ class ForumThread extends Eloquent {
 
 			$post = new ForumPost;
 			$post->user_id    = $userID;
+			$post->section_id = $sectionID;
 			$post->thread_id  = $thread->id;
 			$post->ip_address = Request::getClientIp();
 		}
@@ -301,7 +306,7 @@ class ForumThread extends Eloquent {
 			$latestPost = $thread->getLatestPost();
 
 			$threadArray['latest_post_id']      = $latestPost->id;
-			$threadArray['date_latest_post']    = date('F j, Y', strtotime($latestPost->created_at));
+			$threadArray['date_latest_post']    = date('F j, Y g:i:sa', strtotime($latestPost->created_at));
 			$threadArray['latest_post_user_id'] = $latestPost->creator->id;
 			$threadArray['latest_post_user']    = $latestPost->creator->getName();
 

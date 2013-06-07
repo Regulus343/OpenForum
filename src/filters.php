@@ -13,6 +13,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\View;
 
@@ -26,10 +27,15 @@ Route::filter('forum', function()
 	//add initial breadcrumb trail item for forum
 	Site::addTrailItem('Forum', 'forum');
 
-	//prepare views
-	View::composer('open-forum::home', function($view)
+	$viewsLocation = Config::get('open-forum::viewsLocation');
+
+	View::composer(array($viewsLocation.'home', $viewsLocation.'section'), function($view)
 	{
 		$sections = ForumSection::all();
+		$sectionFormatted = array();
+		foreach ($sections as $section) {
+			$section->latest_post = $section->getLatestPost();
+		}
 		$view->with('sections', $sections);
 	});
 });

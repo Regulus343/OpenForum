@@ -2,11 +2,17 @@
 
 input.grey, textarea.grey, select.grey { color: #777; }
 
+select#select-forum-section {
+	float: right;
+	margin-bottom: 24px;
+}
+
 ul#forum-nav {
 	float: right;
 	list-style: none;
 }
 ul#forum-nav li { display: inline-block; margin: 0 4px 0 0; }
+ul#forum-nav li:last-child { margin-right: 0; }
 
 div#loading-forum-posts {
 	clear: both;
@@ -20,14 +26,14 @@ div#loading-forum-posts {
 div#create-forum-thread form input[type="text"], div#create-forum-thread form textarea { width: 760px; }
 div#create-forum-thread form textarea { height: 260px; }
 
-ul#forum-posts { clear: both; margin: 0; list-style: none; }
+ul#forum-posts { clear: both; list-style: none; }
 
 ul#forum-posts li {
 	position: relative;
 	clear: both;
 	margin: 0 0 12px 0;
 	padding: 8px;
-	min-height: 154px;
+	min-height: 175px;
 
 	background-color: #222;
 
@@ -63,6 +69,29 @@ ul#forum-posts li:hover {
 	background-image: linear-gradient(top, #222 0, #090909 160px); /* Proposed W3C Markup */
 
 	border-color: #ccc;
+}
+
+ul.content li.full-link:hover {
+	background-color: #333;
+
+	background-image: -ms-linear-gradient(top, #333 0%, #1a1a1a 100%); /* IE */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#333, endColorstr=#1a1a1a);
+
+	background-image: -moz-linear-gradient(top, #333 0%, #1a1a1a 100%); /* Firefox */
+	background-image: -o-linear-gradient(top, #333 0%, #1a1a1a 100%); /* Opera */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #333), color-stop(1, #1a1a1a)); /* Webkit (Safari/Chrome 10) */
+	background-image: -webkit-linear-gradient(top, #333 0%, #1a1a1a 100%); /* Webkit (Chrome 11+) */
+	background-image: linear-gradient(top, #333 0%, #1a1a1a 100%); /* Proposed W3C Markup */
+
+	border: 1px solid #666;
+}
+ul.content li.full-link a { z-index: 30; position: relative; }
+ul.content li.full-link a.full-link {
+	z-index: 10;
+	position: absolute;
+	display: block;
+	margin: -8px;
+	width: 100%; height: 100%;
 }
 
 ul#forum-posts li.active-user {
@@ -106,8 +135,8 @@ ul#forum-posts li div.info {
 
 ul#forum-posts li div.info ul.info {
 	margin: 0 3px 7px 0;
-	padding: 4px 0 4px 4px;
-	width: 170px;
+	padding: 4px 0 4px 0;
+	width: 176px;
 	background: transparent;
 	border: none;
 	box-shadow: none;
@@ -116,12 +145,14 @@ ul#forum-posts li div.info ul.info {
 ul#forum-posts li div.info ul.info li {
 	display: block;
 	margin-bottom: 2px;
-	height: 14px;
+	padding: 0;
+	min-height: 0; height: 14px;
 	color: #ddd;
 	background: none;
 	border: none;
 	font-size: 11px;
 	box-shadow: none;
+	line-height: 1em;
 }
 ul#forum-posts li div.info ul.info li * {
 	line-height: auto;
@@ -129,7 +160,7 @@ ul#forum-posts li div.info ul.info li * {
 
 ul#forum-posts li div.info ul.info li label {
 	display: inline-block;
-	width: 76px;
+	width: 84px;
 }
 
 ul#forum-posts li a.display-pic {
@@ -154,7 +185,7 @@ ul#forum-posts li div.post {
 	float: left;
 	margin: 0 0 16px 190px;
 	padding: 0;
-	width: 712px;
+	width: 734px;
 
 	background-color: #111;
 

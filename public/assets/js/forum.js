@@ -222,7 +222,7 @@ function scrollToElement(element) {
 	$('html, body').animate({ scrollTop: $(element).offset().top - 7 }, forumScrollTime);
 }
 
-function loadThreads() {
+function showThreads() {
 	if (threads != undefined && threads.length > 0) {
 		var source   = $('#forum-threads-template').html();
 		var template = Handlebars.compile(source);
@@ -322,19 +322,7 @@ function loadPosts() {
 			}
 
 			posts = result.posts;
-			if (posts != undefined && posts.length > 0) {
-				var source   = $('#forum-posts-template').html();
-				var template = Handlebars.compile(source);
-				var context  = { posts: posts };
-				var html     = template(context);
-
-				hideForumMessage('#add-post', 'success');
-
-				$('#forum-posts').html(html).removeClass('hidden').show();
-				$('#loading-forum-posts').hide();
-			} else {
-				$('#loading-forum-posts').fadeOut('fast');
-			}
+			showPosts();
 
 			/* Load WYSIHTML5 */
 			setupWysiwygEditors();
@@ -360,9 +348,25 @@ function loadPosts() {
 		error: function(){
 			showForumMessage('#message-posts', 'info', forumMessages.noPosts, false, true);
 			$('#loading-posts').fadeOut('fast');
-			console.log('Load Posts Error');
+			console.log('Load Posts Failed');
 		}
 	});
+}
+
+function showPosts() {
+	if (posts != undefined && posts.length > 0) {
+		var source   = $('#forum-posts-template').html();
+		var template = Handlebars.compile(source);
+		var context  = { posts: posts };
+		var html     = template(context);
+
+		hideForumMessage('#add-post', 'success');
+
+		$('#forum-posts').html(html).removeClass('hidden').show();
+		$('#loading-forum-posts').hide();
+	} else {
+		$('#loading-forum-posts').fadeOut('fast');
+	}
 }
 
 function buildForumPagination(type, totalPages, currentPage) {
@@ -706,12 +710,20 @@ $(document).ready(function(){
 	/* Set Up Wysiwyg Editors */
 	setupWysiwygEditors();
 
-	/* Load Threads  */
-	loadThreads();
+	/* Show Threads  */
+	showThreads();
 	setupThreadForm();
 
-	/* Load Posts */
-	loadPosts();
+	/* Show Posts */
+	showPosts();
 	setupPostForm();
+
+	$('#select-forum-section').click(function(){
+		if ($(this).val() == "") {
+			document.location.href = baseURL + 'forum';
+		} else {
+			document.location.href = baseURL + 'forum/' + $(this).val();
+		}
+	});
 
 });

@@ -12,4 +12,5 @@ return array(
     'Illuminate\\Support' => array($vendorDir . '/illuminate/support'),
     'HTMLPurifier_' => array($vendorDir . '/nick4fake/htmlpurifier/HTMLPurifier'),
     'HTMLPurifier' => array($vendorDir . '/nick4fake/htmlpurifier'),
+    'Aquanode\\Formation' => array($vendorDir . '/aquanode/formation/src'),
 );

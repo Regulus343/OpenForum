@@ -1,7 +1,7 @@
 <script id="forum-posts-template" type="text/x-handlebars-template">
 	{{#each posts}}
 
-		<li id="post{{id}}" class="{{#if active_user_post}}active-user{{/if}}{{#unless parent}} sub{{/unless}}{{#if edit_time}} editable{{/if}}{{#unless approved}} unapproved{{/unless}}{{#if deleted}} deleted{{/if}}">
+		<li id="post{{id}}" class="{{#if active_user_post}}active-user{{/if}}{{#if edit_time}} editable{{/if}}{{#if deleted}} deleted{{/if}}">
 
 			<!-- Messages -->
 			<div class="top-messages">
@@ -24,6 +24,9 @@
 					</li><li>
 						<label>Member Since:</label>
 						<span>{{user_since}}</span>
+					</li><li>
+						<label>Posts:</label>
+						<span>{{user_posts}}</span>
 					</li>
 				</ul>
 
@@ -32,7 +35,7 @@
 				<div class="clear"></div>
 			</div>
 
-			<div class="content">
+			<div class="post">
 				<!-- Post Content -->
 				<div class="text">{{{content}}}</div>
 
@@ -103,7 +106,7 @@
 						<input type="hidden" name="thread_id" class="thread-id" value="{{thread_id}}" />
 						<input type="hidden" name="post_id" class="post-id" value="{{id}}" />
 
-						<input type="submit" name="add_comment" class="left" value="<?=Lang::get('open-forum::labels.editPost')?>" />
+						<input type="submit" name="add_post" class="left" value="<?=Lang::get('open-forum::labels.editPost')?>" />
 
 					<?=Form::close()?>
 

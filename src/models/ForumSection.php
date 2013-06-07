@@ -36,6 +36,16 @@ class ForumSection extends Eloquent {
 	}
 
 	/**
+	 * Get a section by its URI slug.
+	 *
+	 * @return object
+	 */
+	public static function bySlug($slug = '')
+	{
+		return static::where('slug', '=', $slug)->first();
+	}
+
+	/**
 	 * The number of posts that belong to the section.
 	 *
 	 * @var    object
@@ -47,16 +57,6 @@ class ForumSection extends Eloquent {
 			$posts += $thread->posts->count();
 		}
 		return $posts;
-	}
-
-	/**
-	 * Get a section by its URI slug.
-	 *
-	 * @return object
-	 */
-	public static function bySlug($slug = '')
-	{
-		return static::where('slug', '=', $slug)->first();
 	}
 
 	/**

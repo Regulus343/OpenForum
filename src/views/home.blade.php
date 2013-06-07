@@ -4,8 +4,6 @@
 
 	@include('open-forum::partials.included_files')
 
-	<p>The forum is divided into <strong>{{ count($sections) }}</strong> different sections. You may select a section below to see the threads it contains.</p>
-
 	@include('open-forum::partials.nav')
 
 	@include('open-forum::partials.messages')
@@ -30,10 +28,10 @@
 						<li>
 							<label>Latest Post:</label>
 							<span>
-								<a href="{{ URL::to('forum/'.$section->latest_post->thread_id.'#post'.$section->latest_post->id) }}">
+								<a href="{{ URL::to('forum/thread/'.$section->latest_post->thread->slug.'#post'.$section->latest_post->id) }}">
 									{{ date('M j, Y \a\t g:ia', strtotime($section->latest_post->created_at)) }}
 								</a> by
-								<a href="{{ URL::to('member/'.$section->latest_post->username) }}">{{ $section->latest_post->username }}</a>
+								<a href="" class="user-popup" rel="{{ $section->latest_post->creator->id }}">{{ $section->latest_post->creator->getName() }}</a>
 							</span>
 						</li>
 					@endif

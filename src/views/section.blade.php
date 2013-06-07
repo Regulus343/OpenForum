@@ -4,8 +4,6 @@
 
 	@include('open-forum::partials.included_files')
 
-	<div>{{ Format::paragraphs($section->description) }}</div>
-
 	@include('open-forum::partials.nav')
 
 	@include('open-forum::partials.messages')

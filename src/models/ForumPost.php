@@ -214,7 +214,8 @@ class ForumPost extends Eloquent {
 			$creator                    = $post->creator;
 			$postArray['user']          = $creator->getName();
 			$postArray['user_role']     = $creator->roles[0]->name;
-			$postArray['user_comments'] = 0;
+			$postArray['user_posts']    = ForumPost::where('user_id', '=', $creator->id)
+													->where('deleted', '=', false)->count();
 			$postArray['user_since']    = date('F Y', strtotime($creator->activated_at));
 			$postArray['user_image']    = $post->creator->getPicture();
 

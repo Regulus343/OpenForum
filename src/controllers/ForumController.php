@@ -39,6 +39,8 @@ class ForumController extends BaseController {
 
 		$threads = $section->threads;
 
+		Form::setDefaults(array('section' => $section->slug));
+
 		$messages['info'] = Format::pluralize('Displaying <strong>[number]</strong> [word] in <strong>'.$section->title.'</strong>.', count($threads), 'thread');
 
 		return View::make(Config::get('open-forum::viewsLocation').'section')
@@ -131,7 +133,6 @@ class ForumController extends BaseController {
 				$post = "";
 				$results['posts']      = array($post);
 			} else {
-				var_dump('test');
 				if (Form::error('title'))
 					$results['messageSub'] = Form::errorMessage('title');
 
@@ -147,9 +148,9 @@ class ForumController extends BaseController {
 	{
 		$thread = ForumThread::bySlug($slug);
 		if (empty($thread))
-			return Redirect::to('forum')->with('messageError', Lang::get('open-forum::messages.errorThreadNotExistent'));
+			return Redirect::to('forum')->with('messageError', Lang::get('open-forum::messages.errorThreadNotFound'));
 
-		Site::set('subSection', 'Forum: '.$thread->section->title);
+		Site::set('subSection', 'Forum: View Thread');
 		Site::set('title', $thread->title);
 
 		Site::addTrailItem($thread->section->title, 'forum/'.$thread->section->slug);
@@ -161,16 +162,17 @@ class ForumController extends BaseController {
 		$postsPerPage = Config::get('open-forum::postsPerPage');
 		$totalPosts   = count($thread->posts);
 
-		$postPlural = Lang::get('open-forum::label.post');
+		$postPlural = Lang::get('open-forum::labels.post');
 		if ($totalPosts > 1) $postPlural = Str::plural($postPlural);
 
 		$start = $page * $postsPerPage - $postsPerPage + 1;
 		$end   = $start + $postsPerPage - 1;
 		if ($end > $totalPosts) $end = $totalPosts;
 
-		$messages['info'] = Lang::get('open-forum::messages.numberComments', array('start' => $start, 'end' => $end, 'total' => $totalPosts, 'itemPlural' => $postPlural));
+		$messages['info'] = Lang::get('open-forum::messages.numberItems', array('start' => $start, 'end' => $end, 'total' => $totalPosts, 'itemPlural' => $postPlural));
 
 		return View::make(Config::get('open-forum::viewsLocation').'thread')
+			->with('section', $thread->section)
 			->with('thread', $thread)
 			->with('posts', json_encode(ForumPost::format($posts)))
 			->with('messages', $messages);

@@ -13,6 +13,7 @@
 		"illuminate/support": "4.0.x",
 		"regulus/solid-site": "dev-master",
 		"regulus/tetra-text": "dev-master",
+		"aquanode/formation": "dev-master",
 		"nick4fake/htmlpurifier": "dev-master"
 	},
 	"autoload": {
