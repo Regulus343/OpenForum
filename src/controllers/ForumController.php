@@ -87,7 +87,6 @@ class ForumController extends BaseController {
 
 	public function postCreateThread($slug = 'general')
 	{
-		//\Illuminate\Support\Facades\DB::table('forum_threads')->delete();
 		$results = array(
 			'resultType' => 'Error',
 			'message'    => Lang::get('open-forum::messages.errorGeneral'),
@@ -169,7 +168,7 @@ class ForumController extends BaseController {
 		$end   = $start + $postsPerPage - 1;
 		if ($end > $totalPosts) $end = $totalPosts;
 
-		Form::setDefaults(array('section' => $thread->section->slug));
+		Form::setDefaults(array('thread_id' => $thread->id));
 
 		$messages['info'] = Lang::get('open-forum::messages.numberItems', array('start' => $start, 'end' => $end, 'total' => $totalPosts, 'itemPlural' => $postPlural));
 
@@ -178,6 +177,41 @@ class ForumController extends BaseController {
 			->with('thread', $thread)
 			->with('posts', json_encode(ForumPost::format($posts)))
 			->with('messages', $messages);
+	}
+
+	public function postPost()
+	{
+		$results = array(
+			'resultType' => 'Error',
+			'message'    => Lang::get('open-forum::messages.errorGeneral'),
+		);
+
+		$thread = ForumSection::bySlug(Input::get('thread_id'));
+		if (empty($thread))
+			return json_encode($results);
+
+		if (!OpenForum::auth())
+			return json_encode($results);
+
+		$rules = array(
+			'content'   => array('required', 'min:24'),
+			'thread_id' => array('required'),
+		);
+		Form::setValidationRules($rules);
+
+		$messages = array();
+		if (Form::validated()) {
+			$results = ForumPost::createUpdate();
+			if ($results['threadID']) {
+				$results['resultType']  = "Success";
+				$results['message']     = Lang::get('open-forum::messages.successPostCreated');
+			}
+		} else {
+			if (Form::error('content'))
+				$results['messageSub'] = Form::errorMessage('content');
+		}
+
+		return json_encode($results);
 	}
 
 	/*public function postCreateThread($slug = 'general')
@@ -236,111 +270,6 @@ class ForumController extends BaseController {
 		return View::make(Config::get('open-forum::viewsLocation').'create')
 			->with('section', $section)
 			->with('messages', $messages);
-	}*/
-
-	/*public function getEditCreateThread($id = 'general')
-	{
-		Site::set('forumSection', OpenForum::section($id));
-
-		$thread = array();
-		if ($id != "") {
-			if (is_int($id)) {
-				$thread = ForumThread::find($id);
-				if (empty($thread)) $id = "";
-				$section = ForumSection::bySlug($thread->slug);
-			} else {
-				$section = ForumSection::bySlug($id);
-			}
-		}
-
-		if (empty($section))
-			return Redirect::to('forum/'.$section->slug)
-				->with('messageError', Lang::get('open-forum::messages.errorSectionNotExistent'));
-
-		if (Auth::guest()) {
-			return Redirect::to('forum/'.$section->slug)
-				->with('messageError', Lang::get('You cannot interact on the forum unless you :linkLogIn or :linkCreateAccount.', array('linkLogIn' => '<a href="'.URL::to('login').'">log in</a>', 'linkCreateAccount' => '<a href="'.URL::to('signup').'">create an account</a>'));
-		}
-
-		Site::set('subSection', 'Forum: '.$section->title);
-
-		Site::addTrailItem($section->title, 'forum/'.$section->slug);
-		if (!empty($thread)) {
-			Site::set('title', 'Forum: '.$thread->title.' (Edit)');
-			$this->layout->add_trail($this->data['thread']->title, 'forum/thread/'.$this->data['section_uri']);
-		} else {
-			$this->config->set_item('title', 'Forum: New Thread');
-			$this->layout->add_trail('New Thread', 'forum/thread/'.$this->data['section_uri']);
-		}
-
-		$this->data['post_content'] = $this->general->purify_html($this->input->post('content'));
-
-		$this->form_validation->set_rules('thread_title', 'Title', 'trim|required|min_length[3]');
-		$this->form_validation->set_rules('content', 'Content', 'trim|required|min_length[24]');
-		if ($this->input->post('preview') == '1') {
-			$this->form_validation->set_rules('prevent_validation', 'Prevent Validation', 'required');
-		}
-		if ($this->form_validation->run()) {
-			$thread_id = $this->forum->create_thread($this->data['forum_section']->uri_tag);
-			if ($thread_id) {
-				flash('success', 'You have successfully created a thread in <a href="'.site_url('forum/'.$this->data['section_uri']).'" style="font-weight: bold;">'.$this->data['forum_section']->title.'</a>.',
-					  'forum/'.$thread_id);
-			} else {
-				$this->data['messages']['error'] = 'Something went wrong.';
-				$this->data['messages']['error_sub'] = 'Please correct any errors and try again.';
-			}
-		} else {
-			if ($_POST) {
-				if ($this->input->post('preview') == '1') {
-					$this->data['messages']['success'] = 'You are previewing your unpublished thread.';
-					$this->data['messages']['success_sub'] = 'Your thread will not be saved until you click the <strong>Create Thread</strong> button. You may make changes and preview as often as you like, but please remember to actually create your thread when you are done making changes.';
-				} else {
-					$this->data['messages']['error'] = 'Something went wrong.';
-					$this->data['messages']['error_sub'] = 'Please correct any errors and try again.';
-				}
-			}
-		}
-
-		$this->load->view('forum/thread_add', $this->data);
-	}
-
-	public function thread_view($id='')
-	{
-		$this->data['thread'] = $this->forum->thread($id);
-		if (empty($this->data['thread'])) flash('error', 'The selected thread was not found.', 'forum');
-		$this->data['thread_id'] = $id;
-		$this->data['forum_section'] = $this->forum->section($this->data['thread']->section_id);
-
-		$this->data['posts'] = $this->forum->posts($this->data['thread_id']);
-		if (empty($this->data['posts'])) flash('error', 'The selected thread was not found.', 'forum');
-		$this->data['id'] = $id;
-		$this->data['section_uri'] = $this->data['forum_section']->uri_tag;
-
-		$this->config->set_item('sub_section', 'Forum: '.$this->data['forum_section']->title);
-		$this->layout->add_trail($this->data['forum_section']->title, 'forum/'.$this->data['section_uri']);
-		$this->config->set_item('title', $this->data['thread']->title);
-		$this->layout->add_trail($this->data['thread']->title, 'forum/'.$id);
-
-		$this->data['messages']['success'] = pluralize('Displaying <strong>[number]</strong> [word].', count($this->data['posts']), 'post');
-
-		$this->load->view('forum/thread', $this->data);
-	}
-
-	public function add_post()
-	{
-		$result = $this->forum->add_update_post();
-		if ($result['result'] == "Error") {
-			set_cookie(array('name'=>	'post_incomplete',
-							 'value'=>	$this->general->purify_html($this->input->post('content')),
-							 'expire'=>	12000));
-		} else {
-			delete_cookie('comment_incomplete');
-		}
-		set_cookie(array('name'=>	'post_id_actioned',
-						 'value'=>	$result['post_id'],
-						 'expire'=>	12000));
-
-		flash(strtolower($result['result']), $result['message'], $result['return']);
 	}*/
 
 }

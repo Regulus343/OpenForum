@@ -1,7 +1,7 @@
 @if (Regulus\OpenForum\OpenForum::auth())
 
 	<div class="create-post hidden" id="reply-forum-thread">
-		{{ Form::open() }}
+		{{ Form::open('forum/post', 'post', array('class' => 'form-post')) }}
 
 			<fieldset>
 				<legend>{{ Lang::get('open-forum::labels.reply') }}</legend>
@@ -14,6 +14,10 @@
 
 				{{-- Thread ID --}}
 				{{ Form::hidden('thread_id') }}
+
+				{{-- Post ID --}}
+				{{ Form::hidden('post_id', 0) }}
+
 
 				{{-- Add Reply --}}
 				<div class="field-row">

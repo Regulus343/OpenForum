@@ -98,7 +98,7 @@
 					<div class="message info hidden"></div>
 
 					<!-- Comment Form - Edit -->
-					<?=Form::open('forum/create', 'post', array('class' => 'form-post'))?>
+					<?=Form::open('forum/post', 'post', array('class' => 'form-post'))?>
 
 						<label for="post-edit{{id}}"><?=Lang::get('open-forum::labels.editPost')?>:</label>
 						<textarea name="post" class="field-post wysiwyg" id="post-edit{{id}}">{{post}}</textarea>
