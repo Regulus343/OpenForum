@@ -154,7 +154,7 @@ class ForumController extends BaseController {
 		Site::set('title', $thread->title);
 
 		Site::addTrailItem($thread->section->title, 'forum/'.$thread->section->slug);
-		Site::addTrailItem($thread->title, 'forum/thread/'.$slug);
+		Site::addTrailItem(Format::charLimit($thread->title, 48), 'forum/thread/'.$slug);
 
 		if (!$page || is_int($page)) $page = 1;
 
@@ -168,6 +168,8 @@ class ForumController extends BaseController {
 		$start = $page * $postsPerPage - $postsPerPage + 1;
 		$end   = $start + $postsPerPage - 1;
 		if ($end > $totalPosts) $end = $totalPosts;
+
+		Form::setDefaults(array('section' => $thread->section->slug));
 
 		$messages['info'] = Lang::get('open-forum::messages.numberItems', array('start' => $start, 'end' => $end, 'total' => $totalPosts, 'itemPlural' => $postPlural));
 

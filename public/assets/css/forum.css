@@ -9,10 +9,20 @@ select#select-forum-section {
 
 ul#forum-nav {
 	float: right;
+	margin: -36px 0 26px;
 	list-style: none;
 }
 ul#forum-nav li { display: inline-block; margin: 0 4px 0 0; }
 ul#forum-nav li:last-child { margin-right: 0; }
+
+p#forum-login {
+	clear: right;
+	float: right;
+	margin: 0 0 12px 0; padding-top: 0;
+	color: #888;
+	font-size: 11px;
+	line-height: 2em;
+}
 
 div#loading-forum-posts {
 	clear: both;
@@ -23,8 +33,11 @@ div#loading-forum-posts {
 	background: url('../img/loader.gif') no-repeat;
 }
 
-div#create-forum-thread form input[type="text"], div#create-forum-thread form textarea { width: 760px; }
-div#create-forum-thread form textarea { height: 260px; }
+div#create-forum-thread form input[type="text"], div#create-forum-thread form textarea,
+div#reply-forum-thread form input[type="text"], div#reply-forum-thread form textarea { width: 760px; }
+div#create-forum-thread form textarea, div#reply-forum-thread form textarea { height: 260px; }
+
+ul#forum-sections li { min-height: 92px; }
 
 ul#forum-posts { clear: both; list-style: none; }
 
@@ -69,6 +82,16 @@ ul#forum-posts li:hover {
 	background-image: linear-gradient(top, #222 0, #090909 160px); /* Proposed W3C Markup */
 
 	border-color: #ccc;
+}
+
+ul#forum-posts li ul.wysihtml5-toolbar > li {
+	display: list-item;
+	clear: none;
+	float: left;
+	margin: 0 5px 0px 0;
+	padding: 0;
+	min-height: auto;
+	list-style: none outside none;
 }
 
 ul.content li.full-link:hover {
@@ -195,7 +218,7 @@ ul#forum-posts li div.post {
 }
 ul#forum-posts li div.post div.text {
 	margin: 16px 12px;
-	min-height: 80px;
+	min-height: 100px;
 	max-height: 760px;
 	overflow: hidden;
 }

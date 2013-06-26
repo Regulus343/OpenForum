@@ -29,7 +29,7 @@ Route::filter('forum', function()
 
 	$viewsLocation = Config::get('open-forum::viewsLocation');
 
-	View::composer(array($viewsLocation.'home', $viewsLocation.'section'), function($view)
+	View::composer(array($viewsLocation.'home', $viewsLocation.'section', $viewsLocation.'thread'), function($view)
 	{
 		$sections = ForumSection::all();
 		$sectionFormatted = array();

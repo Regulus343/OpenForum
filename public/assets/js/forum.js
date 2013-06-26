@@ -216,7 +216,7 @@ var forumMessageTimeout;
 var forumMessageTimeLimit = 6000;
 var forumScroll           = 0;
 var forumScrollTime       = 500;
-var postSlideTime         = 250;
+var forumSlideTime        = 250;
 
 function scrollToElement(element) {
 	$('html, body').animate({ scrollTop: $(element).offset().top - 7 }, forumScrollTime);
@@ -364,6 +364,8 @@ function showPosts() {
 
 		$('#forum-posts').html(html).removeClass('hidden').show();
 		$('#loading-forum-posts').hide();
+
+		setupPostActions();
 	} else {
 		$('#loading-forum-posts').fadeOut('fast');
 	}
@@ -580,7 +582,7 @@ function setupPostActions() {
 		if (label == forumLabels.cancelEdit) {
 			$(this).children('span').text(forumLabels.edit);
 
-			$('#forum-post'+postID+' .edit-forum-post').slideUp(forumSlideTime);
+			$('#forum-post'+postID+' .edit-post').slideUp(forumSlideTime);
 		} else {
 			$('#forum-posts .button-edit span').text(forumLabels.edit);
 			$('#forum-posts .edit-forum-post').slideUp(forumSlideTime);
@@ -592,9 +594,9 @@ function setupPostActions() {
 			$('#forum-post-edit'+postID).val(text);
 			$('#forum-post'+postID).find('iframe').contents().find('.wysihtml5-editor').html(text);
 
-			$('#forum-post'+postID+' .edit-forum-post').hide().removeClass('hidden').css('min-height', 0).slideDown(forumSlideTime);
+			$('#forum-post'+postID+' .edit-post').hide().removeClass('hidden').css('min-height', 0).slideDown(forumSlideTime);
 
-			setTimeout("scrollToElement('#forum-post"+ postID +"');", 250);
+			setTimeout("scrollToElement('#forum-post"+postID+"');", 250);
 		}
 	});
 
@@ -627,6 +629,14 @@ function setupPostActions() {
 			});
 		},
 		{title: 'Delete Post', closeable: true, closeText: 'X'});
+	});
+
+	$('.button-reply-thread').click(function(e){
+		e.preventDefault();
+
+		$('#reply-forum-thread').hide().removeClass('hidden').css('min-height', 0).slideDown(forumSlideTime);
+
+		setTimeout("scrollToElement('#reply-forum-thread');", 250);
 	});
 
 	$('#forum-posts .button-approve').on('click', function(e){
@@ -707,9 +717,6 @@ function postCountdown(element) {
 
 $(document).ready(function(){
 
-	/* Set Up Wysiwyg Editors */
-	setupWysiwygEditors();
-
 	/* Show Threads  */
 	showThreads();
 	setupThreadForm();
@@ -717,6 +724,9 @@ $(document).ready(function(){
 	/* Show Posts */
 	showPosts();
 	setupPostForm();
+
+	/* Set Up Wysiwyg Editors */
+	setupWysiwygEditors();
 
 	$('#select-forum-section').click(function(){
 		if ($(this).val() == "") {

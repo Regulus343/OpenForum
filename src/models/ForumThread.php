@@ -225,7 +225,7 @@ class ForumThread extends Eloquent {
 			$thread = new ForumThread;
 			$thread->user_id    = $userID;
 			$thread->section_id = $sectionID;
-			$thread->slug       = Format::uniqueSlug($title, 'forum_threads', 64);
+			$thread->slug       = Format::uniqueSlug($title, 'forum_threads', false, 64);
 			$thread->title      = $title;
 			$thread->save();
 

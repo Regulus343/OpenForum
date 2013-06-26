@@ -14,8 +14,6 @@
 			<li class="full-link">
 				<a href="{{ URL::to('forum/'.$section->slug) }}" class="full-link"></a>
 
-				<h1>{{{ $section->title }}}</h1>
-
 				<ul class="info">
 					<li>
 						<label>Threads:</label>
@@ -36,6 +34,8 @@
 						</li>
 					@endif
 				</ul>
+
+				<h1>{{{ $section->title }}}</h1>
 
 				{{ Format::paragraphs($section->description) }}
 			</li>

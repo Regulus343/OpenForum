@@ -17,14 +17,14 @@
 				{{-- Title --}}
 				<div class="field-row">
 					{{ Form::field('title', null, array('placeholder' => Lang::get('open-forum::labels.addThreadTitlePlaceholder'))) }}
+					<div class="clear"></div>
 				</div>
-				<div class="clear"></div>
 
 				{{-- Content --}}
 				<div class="field-row">
 					{{ Form::field('content', 'textarea', array('id-field' => 'new-thread-post-content', 'class-field' => 'wysiwyg', 'placeholder' => Lang::get('open-forum::labels.addPostContentPlaceholder'), 'value' => '')) }}
+					<div class="clear"></div>
 				</div>
-				<div class="clear"></div>
 
 				{{-- Section ID --}}
 				{{ Form::hidden('section_id') }}
@@ -32,13 +32,12 @@
 				{{-- Preview --}}
 				{{ Form::hidden('preview', null, array('id-field' => 'preview-thread')) }}
 
+				{{-- Preview & Create Thread --}}
+				<div class="field-row">
+					{{ Form::button(Lang::get('open-forum::labels.previewThread'), array('id' => 'btn-preview-thread')) }}
+					{{ Form::button(Lang::get('open-forum::labels.createThread'), array('id' => 'btn-create-thread')) }}
+				</div>
 			</fieldset>
-
-			{{-- Preview & Create Thread --}}
-			<div class="padded-vertical fieldset-indent">
-				{{ Form::button(Lang::get('open-forum::labels.previewThread'), array('id' => 'btn-preview-thread')) }}
-				{{ Form::button(Lang::get('open-forum::labels.createThread'), array('id' => 'btn-create-thread')) }}
-			</div>
 
 		{{ Form::close() }}
 	</div><!-- /#create-thread -->

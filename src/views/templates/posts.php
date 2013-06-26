@@ -1,7 +1,7 @@
 <script id="forum-posts-template" type="text/x-handlebars-template">
 	{{#each posts}}
 
-		<li id="post{{id}}" class="{{#if active_user_post}}active-user{{/if}}{{#if edit_time}} editable{{/if}}{{#if deleted}} deleted{{/if}}">
+		<li id="forum-post{{id}}" class="{{#if active_user_post}}active-user{{/if}}{{#if edit_time}} editable{{/if}}{{#if deleted}} deleted{{/if}}">
 
 			<!-- Messages -->
 			<div class="top-messages">
@@ -71,13 +71,13 @@
 							</a>
 						</li>
 
-						<li class="action-reply">
-							<a href="" class="btn button button-reply button-reply-post" rel="{{id}}">
-								<div class="icon icon-reply"></div><span><?=Lang::get('open-forum::labels.reply')?></span>
-							</a>
-						</li>
-
 					{{/if}}
+
+					<li class="action-reply">
+						<a href="" class="btn button button-reply button-reply-thread" rel="{{id}}">
+							<div class="icon icon-share-alt"></div><span><?=Lang::get('open-forum::labels.reply')?></span>
+						</a>
+					</li>
 
 				</ul>
 
@@ -86,7 +86,7 @@
 			{{#if edit}}
 
 				<div class="clear"></div>
-				<div id="edit-post{{id}}" class="add-post edit-post hidden" id="">
+				<div id="edit-forum-post{{id}}" class="add-post edit-post hidden" id="">
 
 					<!-- Success Message -->
 					<div class="message success hidden"></div>

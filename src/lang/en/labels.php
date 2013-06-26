@@ -11,6 +11,8 @@ return array(
 	'editThread'                => 'Edit Thread',
 	'addPost'                   => 'Add Post',
 	'editPost'                  => 'Edit Post',
+	'addReply'                  => 'Add Reply',
+	'editReply'                 => 'Edit Reply',
 
 	'navigateToSection'         => 'Navigate to section...',
 

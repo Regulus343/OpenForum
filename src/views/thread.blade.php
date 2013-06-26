@@ -6,6 +6,8 @@
 
 	@include('open-forum::partials.nav')
 
+	@include('open-forum::partials.reply')
+
 	@include('open-forum::partials.messages')
 
 	{{-- Ajax Loading Image --}}
