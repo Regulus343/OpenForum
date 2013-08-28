@@ -13,7 +13,7 @@ return array(
 	| customization.
 	|
 	*/
-	'layout'                => 'layouts.master',
+	'layout' => 'layouts.master',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ return array(
 	| The name of the layout section the forum should appear in.
 	|
 	*/
-	'section'               => 'content',
+	'section' => 'content',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ return array(
 	| directory of your own for full view customization.
 	|
 	*/
-	'viewsLocation'         => 'open-forum::',
+	'viewsLocation' => 'open-forum::',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -49,7 +49,7 @@ return array(
 	| native authorization class.
 	|
 	*/
-	'authClass'             => '\Illuminate\Support\Facades\Auth',
+	'authClass' => '\Illuminate\Support\Facades\Auth',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -216,7 +216,7 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| By default, OpenForum makes use of the lightweight javascript
-	| library Boxy for modal windows like comment deleting confirmation.
+	| library Boxy for modal windows like post deleting confirmation.
 	| You may turn off Boxy if you intend to use another modal window script.
 	|
 	*/
