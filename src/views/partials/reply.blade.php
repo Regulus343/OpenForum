@@ -18,7 +18,6 @@
 				{{-- Post ID --}}
 				{{ Form::hidden('post_id', 0) }}
 
-
 				{{-- Add Reply --}}
 				<div class="field-row">
 					{{ Form::button(Lang::get('open-forum::labels.addReply'), array('id' => 'btn-reply-thread')) }}

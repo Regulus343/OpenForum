@@ -191,7 +191,7 @@ return array(
 	| Load jQuery
 	|--------------------------------------------------------------------------
 	|
-	| Whether or not to have Open Comments automatically load jQuery.
+	| Whether or not to have OpenForum automatically load jQuery.
 	| Turn this off if your website already loads jQuery.
 	|
 	*/
@@ -202,9 +202,9 @@ return array(
 	| Load Bootstrap
 	|--------------------------------------------------------------------------
 	|
-	| Whether or not to have Open Comments automatically load Twitter Bootsrap.
-	| If set to false, Open Comments will assume you are already loading
-	| Bootstrap CSS and JS files. If true, Open Comments will attempt to load
+	| Whether or not to have OpenForum automatically load Twitter Bootsrap.
+	| If set to false, OpenForum will assume you are already loading
+	| Bootstrap CSS and JS files. If true, OpenForum will attempt to load
 	| "bootstrap.css" and "bootstrap.min.js".
 	|
 	*/
@@ -215,7 +215,7 @@ return array(
 	| Load Boxy
 	|--------------------------------------------------------------------------
 	|
-	| By default, Open Comments makes use of the lightweight javascript
+	| By default, OpenForum makes use of the lightweight javascript
 	| library Boxy for modal windows like comment deleting confirmation.
 	| You may turn off Boxy if you intend to use another modal window script.
 	|

@@ -168,7 +168,11 @@ class ForumController extends BaseController {
 		$end   = $start + $postsPerPage - 1;
 		if ($end > $totalPosts) $end = $totalPosts;
 
-		Form::setDefaults(array('thread_id' => $thread->id));
+		$defaults = array(
+			'section'   => $thread->section->slug,
+			'thread_id' => $thread->id,
+		);
+		Form::setDefaults($defaults);
 
 		$messages['info'] = Lang::get('open-forum::messages.numberItems', array('start' => $start, 'end' => $end, 'total' => $totalPosts, 'itemPlural' => $postPlural));
 
